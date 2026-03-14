@@ -20,7 +20,7 @@ export default function AuditPage() {
     e.preventDefault();
     setError(null);
 
-    const githubPattern = /^https?:\/\/github\.com\/[\w.-]+\/[\w.-]+\/?$/;
+    const githubPattern = /^https?:\/\/github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+\/?$/;
     if (!githubPattern.test(repoUrl.trim())) {
       setError("Please enter a valid GitHub repository URL");
       return;
