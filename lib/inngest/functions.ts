@@ -89,12 +89,13 @@ export const runAudit = inngest.createFunction(
     const tmpDir = path.join(os.tmpdir(), `vibecheck-${auditId}`);
 
     try {
-      // Step 1: Ingest — clone repo or extract zip
-      const clonePath = await step.run("ingest", async () => {
+      // Step 1: Ingest + Scan + Analyze — all in one step because /tmp
+      // doesn't persist between Inngest steps on serverless (each step
+      // is a separate function invocation).
+      const result: AnalysisResult = await step.run("ingest-scan-analyze", async () => {
         await updateAuditStatus(auditId, "cloning");
 
         if (source === "zip" && zipStoragePath) {
-          // Download ZIP from Supabase Storage and extract
           const admin = createAdminClient();
           const { data, error } = await admin.storage
             .from("zip-uploads")
@@ -105,22 +106,13 @@ export const runAudit = inngest.createFunction(
           await fs.mkdir(tmpDir, { recursive: true });
           await extractZip(buffer, tmpDir);
 
-          // Clean up storage
           await admin.storage.from("zip-uploads").remove([zipStoragePath]);
-
-          return tmpDir;
+        } else {
+          await cloneRepo(repoUrl, tmpDir);
         }
 
-        const targetDir = await cloneRepo(repoUrl, tmpDir);
-        return targetDir;
-      });
-
-      // Step 2: Scan & Analyze — merged into one step so file contents
-      // stay in memory and are never serialized as step output (avoids
-      // Inngest's 4MB output limit on large repos).
-      const result: AnalysisResult = await step.run("scan-and-analyze", async () => {
         await updateAuditStatus(auditId, "analyzing");
-        const files = await scanFiles(clonePath, 2000);
+        const files = await scanFiles(tmpDir, 2000);
         const analysisResult = await analyzeCodebase(files);
         return analysisResult;
       });
