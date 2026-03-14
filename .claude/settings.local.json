@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/Users/lrami/Desktop/Code/vibecheck/supabase -type f -name \"*.sql\" 2>/dev/null | sort)"
+    ]
+  }
+}
