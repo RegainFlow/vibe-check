@@ -1,50 +1,58 @@
-import simpleGit from "simple-git";
 import * as fs from "fs/promises";
-import * as path from "path";
+import { extractZip } from "./zip";
 
-const GITHUB_URL_PATTERN = /^https?:\/\/github\.com\/[\w.-]+\/[\w.-]+(\.git)?$/;
-const GENERIC_GIT_URL_PATTERN = /^https?:\/\/.+\/[\w.-]+\/[\w.-]+(\.git)?$/;
+const GITHUB_URL_PATTERN = /^https?:\/\/(www\.)?github\.com\/([a-zA-Z0-9_.-]+)\/([a-zA-Z0-9_.-]+)/;
 
 /**
- * Validate that a URL looks like a valid Git repository URL.
+ * Parse a GitHub URL into owner and repo.
  */
-function isValidRepoUrl(url: string): boolean {
-  return GITHUB_URL_PATTERN.test(url) || GENERIC_GIT_URL_PATTERN.test(url);
+function parseGitHubUrl(url: string): { owner: string; repo: string } {
+  const match = url.match(GITHUB_URL_PATTERN);
+  if (!match) {
+    throw new Error(
+      `Invalid GitHub URL: ${url}. Expected https://github.com/owner/repo`
+    );
+  }
+  return { owner: match[2], repo: match[3].replace(/\.git$/, "") };
 }
 
 /**
- * Clone a Git repository with shallow depth for fast analysis.
- * Removes the .git directory after clone to save space.
+ * Download a GitHub repository as a ZIP archive and extract it.
+ * Uses GitHub's zipball API — no git binary required.
  *
- * @param repoUrl - HTTPS URL of the Git repository
- * @param targetDir - Local directory to clone into
+ * @param repoUrl - HTTPS GitHub URL (e.g., https://github.com/user/repo)
+ * @param targetDir - Local directory to extract into
  */
 export async function cloneRepo(
   repoUrl: string,
   targetDir: string
 ): Promise<string> {
-  if (!isValidRepoUrl(repoUrl)) {
+  const { owner, repo } = parseGitHubUrl(repoUrl);
+
+  const zipUrl = `https://api.github.com/repos/${owner}/${repo}/zipball`;
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+    "User-Agent": "VibeCheck/1.0",
+  };
+
+  // Use GitHub token if available (higher rate limits)
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  const res = await fetch(zipUrl, { headers });
+
+  if (!res.ok) {
     throw new Error(
-      `Invalid repository URL: ${repoUrl}. Must be an HTTPS Git URL (e.g., https://github.com/user/repo)`
+      `Failed to download repository: ${res.status} ${res.statusText}. ` +
+        `Make sure ${owner}/${repo} is a public repository.`
     );
   }
 
-  const git = simpleGit();
+  const buffer = Buffer.from(await res.arrayBuffer());
 
-  // Shallow clone for speed — we only need the latest code, not history
-  await git.clone(repoUrl, targetDir, [
-    "--depth",
-    "1",
-    "--single-branch",
-  ]);
-
-  // Remove .git directory to save space and avoid scanning it
-  const gitDir = path.join(targetDir, ".git");
-  try {
-    await fs.rm(gitDir, { recursive: true, force: true });
-  } catch {
-    // Non-critical — the scanner will skip .git anyway
-  }
+  await fs.mkdir(targetDir, { recursive: true });
+  await extractZip(buffer, targetDir);
 
   return targetDir;
 }
