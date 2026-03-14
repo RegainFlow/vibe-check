@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Bell } from "lucide-react";
 
 interface DashboardTopBarProps {
   userName: string;
@@ -33,9 +32,6 @@ export function DashboardTopBar({ userName }: DashboardTopBarProps) {
 
       {/* Right side */}
       <div className="flex items-center gap-4">
-        <button className="relative w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-white/10 transition-colors">
-          <Bell className="w-4 h-4" />
-        </button>
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-full gradient-purple flex items-center justify-center text-white text-xs font-bold">
             {userName[0]?.toUpperCase() ?? "U"}

@@ -45,6 +45,18 @@ export default function Footer() {
             >
               Start Audit
             </Link>
+            <Link
+              href="/privacy"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Terms
+            </Link>
           </div>
 
           {/* Social icons + Copyright */}

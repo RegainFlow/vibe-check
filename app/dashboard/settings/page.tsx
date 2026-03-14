@@ -1,17 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { User, CreditCard, Bell, Loader2 } from "lucide-react";
+import { User, CreditCard, Trash2, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function SettingsPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [plan, setPlan] = useState("free");
+  const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState("");
 
   useEffect(() => {
     async function loadProfile() {
@@ -169,66 +173,69 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          {plan === "free" ? (
-            <Button
-              onClick={() => (window.location.href = "/pricing")}
-              className="gradient-purple border-0 text-white hover:opacity-90"
-            >
-              Upgrade to Pro
-            </Button>
-          ) : (
+          {plan !== "free" && (
             <Button variant="outline" onClick={handleManageBilling}>
               Manage Billing
             </Button>
           )}
         </div>
 
-        {/* Notifications */}
-        <div className="glow-card p-6">
+        {/* Danger Zone */}
+        <div className="glow-card p-6 border-destructive/30">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center">
-              <Bell className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
+              <Trash2 className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h2 className="font-semibold">Notifications</h2>
+              <h2 className="font-semibold text-destructive">Danger Zone</h2>
               <p className="text-xs text-muted-foreground">
-                Configure how you receive updates
+                Irreversible actions
               </p>
             </div>
           </div>
 
-          <div className="space-y-4">
-            {[
-              {
-                label: "Audit complete",
-                desc: "Get notified when an audit finishes",
-              },
-              {
-                label: "Weekly digest",
-                desc: "Summary of your audit activity",
-              },
-              {
-                label: "Product updates",
-                desc: "New features and improvements",
-              },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="flex items-center justify-between rounded-lg border border-white/5 bg-background/30 p-4"
-              >
-                <div>
-                  <p className="text-sm font-medium">{item.label}</p>
-                  <p className="text-xs text-muted-foreground">{item.desc}</p>
-                </div>
-                <button className="relative w-10 h-6 rounded-full bg-white/10 transition-colors">
-                  <div className="absolute left-1 top-1 w-4 h-4 rounded-full bg-muted-foreground transition-transform" />
-                </button>
-              </div>
-            ))}
-          </div>
-          <p className="text-xs text-muted-foreground mt-4">
-            Notification preferences coming soon.
+          <p className="text-sm text-muted-foreground mb-4">
+            Permanently delete your account, audit history, and all associated
+            data. This action cannot be undone.
           </p>
+
+          <div className="space-y-3">
+            <div>
+              <label className="block text-sm font-medium mb-1.5">
+                Type <span className="font-mono text-destructive">delete my account</span> to confirm
+              </label>
+              <input
+                type="text"
+                value={confirmDelete}
+                onChange={(e) => setConfirmDelete(e.target.value)}
+                className="w-full px-3 py-2.5 rounded-lg bg-background border border-destructive/20 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-destructive/50 focus:border-destructive/50 transition-all"
+                placeholder="delete my account"
+              />
+            </div>
+            <Button
+              variant="outline"
+              className="border-destructive/50 text-destructive hover:bg-destructive hover:text-white"
+              disabled={confirmDelete !== "delete my account" || deleting}
+              onClick={async () => {
+                setDeleting(true);
+                const res = await fetch("/api/account/delete", {
+                  method: "DELETE",
+                });
+                if (res.ok) {
+                  const supabase = createClient();
+                  await supabase.auth.signOut();
+                  router.push("/");
+                } else {
+                  setDeleting(false);
+                }
+              }}
+            >
+              {deleting ? (
+                <Loader2 className="w-4 h-4 animate-spin mr-2" />
+              ) : null}
+              {deleting ? "Deleting..." : "Delete Account"}
+            </Button>
+          </div>
         </div>
       </div>
     </div>

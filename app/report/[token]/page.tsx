@@ -71,8 +71,8 @@ export default async function SharedReportPage({ params }: Props) {
       <header className="border-b border-white/5 bg-background/60 backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-lg font-bold">
-              <span className="text-primary">Vibe</span>Check
+            <span className="text-lg font-bold tracking-tight text-foreground">
+              VibeCheck
             </span>
             <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">
               Shared Report

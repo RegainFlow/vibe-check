@@ -6,13 +6,15 @@ import { inngest } from "@/lib/inngest/client";
 import { PLANS } from "@/lib/constants";
 import type { PlanType } from "@/lib/constants";
 
+const GITHUB_RE = /^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+/;
+
 const startAuditSchema = z.object({
   repoUrl: z.string().url(),
   source: z.enum(["github", "zip"]),
 }).refine(
   (data) => {
     if (data.source === "github") {
-      return /^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+/.test(data.repoUrl);
+      return GITHUB_RE.test(data.repoUrl);
     }
     return true;
   },
@@ -21,17 +23,68 @@ const startAuditSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const parsed = startAuditSchema.safeParse(body);
+    const contentType = request.headers.get("content-type") ?? "";
 
-    if (!parsed.success) {
-      return NextResponse.json(
-        { error: "Invalid request", details: parsed.error.flatten() },
-        { status: 400 }
-      );
+    let repoUrl: string;
+    let source: "github" | "zip";
+    let zipStoragePath: string | null = null;
+
+    if (contentType.includes("multipart/form-data")) {
+      // ZIP file upload
+      const formData = await request.formData();
+      const file = formData.get("file") as File | null;
+
+      if (!file || !file.name.endsWith(".zip")) {
+        return NextResponse.json(
+          { error: "Please upload a .zip file" },
+          { status: 400 }
+        );
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        return NextResponse.json(
+          { error: "File must be under 50MB" },
+          { status: 400 }
+        );
+      }
+
+      source = "zip";
+      repoUrl = `zip://${file.name}`;
+
+      // Upload to Supabase Storage for the Inngest worker to retrieve
+      const admin = createAdminClient();
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const storagePath = `${crypto.randomUUID()}.zip`;
+
+      // Ensure bucket exists, then upload
+      await admin.storage.createBucket("zip-uploads", { public: false }).catch(() => {});
+      const { error: uploadError } = await admin.storage
+        .from("zip-uploads")
+        .upload(storagePath, buffer, { contentType: "application/zip" });
+
+      if (uploadError) {
+        console.error("ZIP upload error:", uploadError);
+        return NextResponse.json(
+          { error: "Failed to upload file" },
+          { status: 500 }
+        );
+      }
+
+      zipStoragePath = storagePath;
+    } else {
+      // JSON body (GitHub URL)
+      const body = await request.json();
+      const parsed = startAuditSchema.safeParse(body);
+
+      if (!parsed.success) {
+        return NextResponse.json(
+          { error: "Invalid request", details: parsed.error.flatten() },
+          { status: 400 }
+        );
+      }
+
+      repoUrl = parsed.data.repoUrl;
+      source = parsed.data.source;
     }
-
-    const { repoUrl, source } = parsed.data;
 
     // Get user (optional — anonymous audits allowed)
     const supabase = await createClient();
@@ -61,7 +114,7 @@ export async function POST(request: NextRequest) {
       const userPlan = PLANS[profile.plan as PlanType];
       if (profile.audits_used_this_month >= userPlan.auditsPerMonth) {
         return NextResponse.json(
-          { error: "Monthly audit limit reached. Upgrade your plan for more audits." },
+          { error: "You've used all your audits for this month. More capacity is coming soon — we're currently in demo." },
           { status: 429 }
         );
       }
@@ -116,6 +169,7 @@ export async function POST(request: NextRequest) {
         repoUrl,
         source,
         userId: user?.id ?? null,
+        ...(zipStoragePath ? { zipStoragePath } : {}),
       },
     });
 

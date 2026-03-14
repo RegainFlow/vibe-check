@@ -11,8 +11,8 @@ import {
   LogOut,
   FolderGit2,
   History,
-  ArrowUpCircle,
   Menu,
+  CheckCircle,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -68,8 +68,11 @@ function NavContent({
     <>
       {/* Logo */}
       <div className="p-6 pb-4">
-        <Link href="/" className="text-xl font-bold">
-          <span className="text-primary">Vibe</span>Check
+        <Link href="/" className="flex items-center gap-2">
+          <CheckCircle className="size-5 text-primary" />
+          <span className="text-lg font-bold tracking-tight text-foreground">
+            VibeCheck
+          </span>
         </Link>
       </div>
 
@@ -99,13 +102,6 @@ function NavContent({
                   style={{ width: `${usagePercent}%` }}
                 />
               </div>
-              <Link
-                href="/pricing"
-                className="mt-3 flex items-center justify-center gap-1.5 w-full px-3 py-2 rounded-lg text-xs font-medium gradient-purple text-white hover:opacity-90 transition-opacity"
-              >
-                <ArrowUpCircle className="w-3.5 h-3.5" />
-                Upgrade
-              </Link>
             </>
           )}
         </div>

@@ -4,6 +4,7 @@ import fs from "fs/promises";
 import { inngest } from "./client";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { cloneRepo } from "@/lib/analysis/ingestion/github";
+import { extractZip } from "@/lib/analysis/ingestion/zip";
 import { scanFiles } from "@/lib/analysis/scanner";
 import { analyzeCodebase } from "@/lib/analysis/engine";
 import { rewriteFindings } from "@/lib/openai/rewriter";
@@ -77,19 +78,39 @@ export const runAudit = inngest.createFunction(
   },
   { event: "audit/started" },
   async ({ event, step }) => {
-    const { auditId, repoUrl } = event.data as {
+    const { auditId, repoUrl, source, zipStoragePath } = event.data as {
       auditId: string;
       repoUrl: string;
       source: "github" | "zip";
       userId: string | null;
+      zipStoragePath?: string;
     };
 
     const tmpDir = path.join(os.tmpdir(), `vibecheck-${auditId}`);
 
     try {
-      // Step 1: Ingest — clone repo
+      // Step 1: Ingest — clone repo or extract zip
       const clonePath = await step.run("ingest", async () => {
         await updateAuditStatus(auditId, "cloning");
+
+        if (source === "zip" && zipStoragePath) {
+          // Download ZIP from Supabase Storage and extract
+          const admin = createAdminClient();
+          const { data, error } = await admin.storage
+            .from("zip-uploads")
+            .download(zipStoragePath);
+          if (error || !data) throw new Error("Failed to download ZIP from storage");
+
+          const buffer = Buffer.from(await data.arrayBuffer());
+          await fs.mkdir(tmpDir, { recursive: true });
+          await extractZip(buffer, tmpDir);
+
+          // Clean up storage
+          await admin.storage.from("zip-uploads").remove([zipStoragePath]);
+
+          return tmpDir;
+        }
+
         const targetDir = await cloneRepo(repoUrl, tmpDir);
         return targetDir;
       });
