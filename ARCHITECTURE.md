@@ -80,9 +80,11 @@ Flow: user clicks upgrade → checkout session → payment → webhook fires →
 
 ## Auth
 
-- Supabase OAuth (GitHub provider)
-- `proxy.ts` handles cookie-based session management as Next.js middleware
+- Supabase OAuth (Google provider)
+- `proxy.ts` handles cookie-based session management (Next.js 16 proxy file, auto-activated)
 - `app/api/auth/callback/route.ts` exchanges the OAuth code for a session
+- `components/shared/AuthButton.tsx` — reactive sign-in / Dashboard link in navbar
+- `components/shared/LoginModal.tsx` — modal triggered by `?login=true` (e.g. from dashboard redirect)
 - Client: `lib/supabase/client.ts` (browser), `lib/supabase/server.ts` (server components), `lib/supabase/admin.ts` (service role)
 
 ## API Routes

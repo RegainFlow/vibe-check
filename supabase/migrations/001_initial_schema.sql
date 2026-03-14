@@ -49,6 +49,7 @@ create index idx_audits_share_token on public.audits(share_token);
 create index idx_audits_status on public.audits(status);
 create index idx_findings_audit_id on public.findings(audit_id);
 create index idx_findings_category on public.findings(category);
+create index idx_audits_anon_ip on public.audits ((metadata->>'ip')) where user_id is null;
 
 -- RLS policies
 alter table public.profiles enable row level security;

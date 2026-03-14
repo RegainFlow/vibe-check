@@ -21,6 +21,7 @@
 - **Animation:** Use shared variants from `lib/motion.ts` (`fadeUp`, `fadeIn`, `scaleIn`, `staggerContainer`). Use `MotionDiv`/`MotionSection` wrappers from `components/shared/MotionWrapper.tsx` in server components.
 - **Toasts:** Use `sonner` (`toast.success()`, `toast.error()`) instead of custom copy-feedback state.
 - **Styling reference:** see `STYLES.md` for color palette, custom utilities, and animation patterns.
+- **Auth flow:** Google OAuth via Supabase. `proxy.ts` refreshes cookies on every request. `AuthButton` shows sign-in or Dashboard link. Dashboard layout redirects to `/?login=true` when unauthenticated, which opens `LoginModal`.
 
 ## Key Files
 
@@ -32,7 +33,9 @@
 - `lib/inngest/functions.ts` — Main audit pipeline (ingest → scan → analyze → cap → rewrite → finalize)
 - `lib/analysis/engine.ts` — Runs 7 analyzers in parallel, deduplicates, scores
 - `lib/openai/rewriter.ts` — GPT-4o batch rewriter for plain-English findings
-- `proxy.ts` — Supabase auth cookie handling middleware
+- `proxy.ts` — Supabase auth cookie handling (Next.js 16 proxy file)
+- `components/shared/AuthButton.tsx` — Reactive auth button (sign-in / Dashboard link)
+- `components/shared/LoginModal.tsx` — Login modal triggered by `?login=true` query param
 
 ## Build & Verify
 

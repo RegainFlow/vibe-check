@@ -94,15 +94,12 @@ export const runAudit = inngest.createFunction(
         return targetDir;
       });
 
-      // Step 2: Scan — find and read files
-      const files = await step.run("scan", async () => {
+      // Step 2: Scan & Analyze — merged into one step so file contents
+      // stay in memory and are never serialized as step output (avoids
+      // Inngest's 4MB output limit on large repos).
+      const result: AnalysisResult = await step.run("scan-and-analyze", async () => {
         await updateAuditStatus(auditId, "analyzing");
-        const scannedFiles = await scanFiles(clonePath, 2000);
-        return scannedFiles;
-      });
-
-      // Step 3: Analyze — run analysis engine
-      const result: AnalysisResult = await step.run("analyze", async () => {
+        const files = await scanFiles(clonePath, 2000);
         const analysisResult = await analyzeCodebase(files);
         return analysisResult;
       });

@@ -7,6 +7,7 @@ import { CheckCircle, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import AuthButton from "@/components/shared/AuthButton";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -45,6 +46,7 @@ export default function Navbar() {
         {/* Right side */}
         <div className="flex items-center gap-3">
           <ThemeToggle />
+          <AuthButton />
           <Link href="/audit" className="hidden sm:block">
             <Button className="h-9 px-4 text-sm font-semibold bg-primary hover:bg-primary/90 transition-colors">
               Start Free Audit
@@ -91,6 +93,9 @@ export default function Navbar() {
               >
                 Pricing
               </Link>
+              <div className="py-3 border-b border-border/50">
+                <AuthButton />
+              </div>
               <Link
                 href="/audit"
                 onClick={() => setMobileOpen(false)}

@@ -12,7 +12,7 @@ const startAuditSchema = z.object({
 }).refine(
   (data) => {
     if (data.source === "github") {
-      return /^https?:\/\/(www\.)?github\.com\/[^/]+\/[^/]+/.test(data.repoUrl);
+      return /^https?:\/\/(www\.)?github\.com\/[a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+/.test(data.repoUrl);
     }
     return true;
   },
@@ -37,8 +37,12 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    // If authenticated, check usage limits
     const admin = createAdminClient();
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+
+    let auditsUsedThisMonth = 0;
+
+    // If authenticated, check usage limits
     if (user) {
       const { data: profile, error: profileError } = await admin
         .from("profiles")
@@ -53,10 +57,25 @@ export async function POST(request: NextRequest) {
         );
       }
 
+      auditsUsedThisMonth = profile.audits_used_this_month;
       const userPlan = PLANS[profile.plan as PlanType];
       if (profile.audits_used_this_month >= userPlan.auditsPerMonth) {
         return NextResponse.json(
           { error: "Monthly audit limit reached. Upgrade your plan for more audits." },
+          { status: 429 }
+        );
+      }
+    } else {
+      // Anonymous rate limit: 1 audit per IP
+      const { count } = await admin
+        .from("audits")
+        .select("*", { count: "exact", head: true })
+        .is("user_id", null)
+        .eq("metadata->>ip", ip);
+
+      if (count && count >= 1) {
+        return NextResponse.json(
+          { error: "Anonymous audit limit reached. Sign in for more audits." },
           { status: 429 }
         );
       }
@@ -69,6 +88,7 @@ export async function POST(request: NextRequest) {
         repo_url: repoUrl,
         user_id: user?.id ?? null,
         status: "pending",
+        ...(user ? {} : { metadata: { ip } }),
       })
       .select("id")
       .single();
@@ -84,7 +104,7 @@ export async function POST(request: NextRequest) {
     if (user) {
       await admin
         .from("profiles")
-        .update({ audits_used_this_month: 1 })
+        .update({ audits_used_this_month: auditsUsedThisMonth + 1 })
         .eq("id", user.id);
     }
 
