@@ -1,3 +1,6 @@
+-- Extensions
+create extension if not exists pgcrypto with schema extensions;
+
 -- Profiles table (extends auth.users)
 create table public.profiles (
   id uuid references auth.users on delete cascade primary key,
@@ -20,7 +23,7 @@ create table public.audits (
   overall_score integer,
   scores jsonb,
   metadata jsonb,
-  share_token text unique default encode(gen_random_bytes(16), 'hex'),
+  share_token text unique default encode(extensions.gen_random_bytes(16), 'hex'),
   total_files integer not null default 0,
   error_message text,
   created_at timestamptz not null default now(),
