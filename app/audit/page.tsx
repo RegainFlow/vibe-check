@@ -224,7 +224,7 @@ export default function AuditPage() {
                     const file = e.dataTransfer.files[0];
                     if (file) handleZipUpload(file);
                   }}
-                  className={`rounded-xl border-2 border-dashed p-12 text-center transition-all ${
+                  className={`rounded-xl border-2 border-dashed p-6 sm:p-12 text-center transition-all ${
                     dragOver
                       ? "bg-primary/5 shadow-[0_0_30px_rgba(124,58,237,0.15)]"
                       : "bg-card/50"

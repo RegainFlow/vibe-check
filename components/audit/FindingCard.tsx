@@ -126,7 +126,7 @@ export function FindingCard({ finding }: FindingCardProps) {
                   <p className="text-xs font-medium text-muted-foreground mb-2">
                     Code
                   </p>
-                  <pre className="text-xs font-mono bg-background/50 rounded-lg p-3 overflow-x-auto border border-white/5">
+                  <pre className="text-xs font-mono bg-background/50 rounded-lg p-3 overflow-x-auto break-all border border-white/5">
                     <code>{finding.code_snippet}</code>
                   </pre>
                 </div>
@@ -149,7 +149,7 @@ export function FindingCard({ finding }: FindingCardProps) {
                       Copy Fix Prompt
                     </Button>
                   </div>
-                  <div className="text-sm bg-primary/5 border border-primary/10 rounded-lg p-3">
+                  <div className="text-sm break-words bg-primary/5 border border-primary/10 rounded-lg p-3">
                     {finding.fix_prompt}
                   </div>
                 </div>

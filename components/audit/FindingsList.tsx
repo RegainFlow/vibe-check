@@ -43,7 +43,7 @@ export default function FindingsList({ findings }: FindingsListProps) {
       <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
         <button
           onClick={() => setActiveCategory("all")}
-          className={`relative px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+          className={`relative px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
             activeCategory === "all"
               ? "text-primary-foreground"
               : "bg-secondary/50 text-muted-foreground hover:text-foreground"
@@ -62,7 +62,7 @@ export default function FindingsList({ findings }: FindingsListProps) {
           <button
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
-            className={`relative px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`relative px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
               activeCategory === cat.key
                 ? "text-primary-foreground"
                 : "bg-secondary/50 text-muted-foreground hover:text-foreground"

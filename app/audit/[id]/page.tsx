@@ -222,7 +222,7 @@ export default function AuditResultPage() {
               {/* Header */}
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
                 <div>
-                  <h1 className="text-2xl font-bold mb-1">Audit Results</h1>
+                  <h1 className="text-xl sm:text-2xl font-bold mb-1">Audit Results</h1>
                   <p className="text-muted-foreground text-sm">
                     {audit.metadata?.repoOwner}/{audit.metadata?.repoName} &middot;{" "}
                     {audit.total_files} files analyzed
@@ -244,8 +244,8 @@ export default function AuditResultPage() {
               <div className="relative flex flex-col items-center mb-12 p-8 rounded-2xl border border-white/10 bg-card/50 backdrop-blur-sm overflow-hidden">
                 {/* Confetti burst effect */}
                 <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.5s both" }} />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.8s both" }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.5s both" }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.8s both" }} />
                 </div>
 
                 <p className="text-sm text-muted-foreground mb-4 uppercase tracking-wider">

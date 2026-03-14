@@ -257,7 +257,7 @@ export function DashboardNav({ user }: DashboardNavProps) {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="fixed inset-y-0 left-0 w-72 flex flex-col border-r border-white/5 bg-card/95 backdrop-blur-xl z-50 md:hidden"
+              className="fixed inset-y-0 left-0 w-[calc(100vw-3rem)] max-w-72 flex flex-col border-r border-white/5 bg-card/95 backdrop-blur-xl z-50 md:hidden"
             >
               <NavContent
                 user={user}
