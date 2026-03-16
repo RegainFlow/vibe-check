@@ -25,7 +25,7 @@ function getGrade(score: number): string {
 }
 
 function getGradientColors(score: number): { start: string; end: string; glow: string } {
-  if (score > 80)
+  if (score >= 80)
     return { start: "#22C55E", end: "#14B8A6", glow: "rgba(34,197,94,0.3)" };
   if (score >= 60)
     return { start: "#F59E0B", end: "#EAB308", glow: "rgba(245,158,11,0.3)" };
@@ -64,7 +64,7 @@ export default function ScoreGauge({ score, label, size = "md" }: ScoreGaugeProp
   }, [dashMotion, scoreMotion, offset, score]);
 
   return (
-    <div className="flex flex-col items-center gap-1">
+    <div className="flex flex-col items-center gap-2">
       <div className="relative" style={{ width: config.width, height: config.width }}>
         {/* Glow behind gauge */}
         <motion.div
@@ -78,7 +78,7 @@ export default function ScoreGauge({ score, label, size = "md" }: ScoreGaugeProp
           width={config.width}
           height={config.width}
           viewBox={`0 0 ${config.width} ${config.width}`}
-          className="-rotate-90"
+          className="-rotate-90 drop-shadow-[0_0_5px_rgba(0,0,0,0.5)]"
         >
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
@@ -104,7 +104,7 @@ export default function ScoreGauge({ score, label, size = "md" }: ScoreGaugeProp
             fill="none"
             stroke={`url(#${gradientId})`}
             strokeWidth={config.stroke}
-            strokeLinecap="round"
+            strokeLinecap="butt"
             strokeDasharray={circumference}
             style={{
               strokeDashoffset: dashSpring,
@@ -115,21 +115,21 @@ export default function ScoreGauge({ score, label, size = "md" }: ScoreGaugeProp
         {/* Center content with pop animation */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <motion.span
-            className={cn("font-bold leading-none", config.gradeSize)}
-            style={{ color: colors.start }}
+            className={cn("font-mono font-bold leading-none", config.gradeSize)}
+            style={{ color: colors.start, textShadow: `0 0 10px ${colors.glow}` }}
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.8 }}
           >
             {grade}
           </motion.span>
-          <motion.span className={cn("font-mono text-muted-foreground mt-0.5", config.scoreSize)}>
+          <motion.span className={cn("font-mono text-muted-foreground mt-1 tabular-nums", config.scoreSize)}>
             {displayScore}
           </motion.span>
         </div>
       </div>
       {label && (
-        <span className={cn("text-muted-foreground font-medium", config.labelSize)}>
+        <span className={cn("font-mono uppercase tracking-widest text-muted-foreground", config.labelSize)}>
           {label}
         </span>
       )}

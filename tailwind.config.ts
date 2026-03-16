@@ -28,7 +28,7 @@ const config: Config = {
           foreground: "var(--muted-foreground)",
         },
         accent: {
-          DEFAULT: "#A78BFA",
+          DEFAULT: "var(--accent)",
           foreground: "var(--accent-foreground)",
         },
         destructive: {
@@ -39,13 +39,25 @@ const config: Config = {
         ring: "var(--ring)",
         success: "var(--success)",
         warning: "var(--warning)",
-        glow: "rgba(124,58,237,0.4)",
-        "gradient-start": "#7C3AED",
-        "gradient-end": "#2563EB",
+        gold: "var(--gold)",
+        navy: "var(--navy)",
+        indigo: {
+          400: "var(--indigo-400)",
+          500: "var(--indigo-500)",
+          800: "var(--indigo-800)",
+          900: "var(--indigo-900)",
+          950: "var(--indigo-950)",
+        },
+        magenta: "var(--primary)",
+        violet: "#7C3AED",
+        "electric-blue": "#3B82F6",
+        glow: "var(--primary)",
+        "gradient-start": "var(--primary)",
+        "gradient-end": "var(--indigo-500)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "Inter", "system-ui", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
       },
       keyframes: {
         shimmer: {
@@ -70,8 +82,18 @@ const config: Config = {
           "50%": { transform: "translateY(-10px)" },
         },
         "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(124,58,237,0.2)" },
-          "50%": { boxShadow: "0 0 40px rgba(124,58,237,0.4)" },
+          "0%, 100%": { boxShadow: "0 0 20px rgba(217, 70, 239, 0.2)" },
+          "50%": { boxShadow: "0 0 40px rgba(217, 70, 239, 0.4)" },
+        },
+        "flicker": {
+          "0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%": {
+            opacity: "0.99",
+            textShadow: "0 0 4px #fff, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #D946EF, 0 0 80px #D946EF, 0 0 90px #D946EF, 0 0 100px #D946EF, 0 0 150px #D946EF",
+          },
+          "20%, 21.999%, 63%, 63.999%, 65%, 69.999%": {
+            opacity: "0.4",
+            textShadow: "none",
+          },
         },
       },
       animation: {
@@ -81,6 +103,7 @@ const config: Config = {
         "score-fill": "score-fill 1.5s ease-out forwards",
         float: "float 3s ease-in-out infinite",
         "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "flicker": "flicker 1.5s infinite alternate",
       },
     },
   },

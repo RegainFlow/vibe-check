@@ -70,102 +70,104 @@ export default function SettingsPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+        <Loader2 className="w-6 h-6 animate-spin text-magenta" />
       </div>
     );
   }
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-muted-foreground text-sm mt-1">
+      <div className="mb-8 pb-6 border-b border-indigo-900/30">
+        <h1 className="text-2xl font-mono font-bold uppercase tracking-tight text-foreground glow-text-magenta">Settings</h1>
+        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-2">
           Manage your account and preferences
         </p>
       </div>
 
-      <div className="max-w-2xl space-y-6">
+      <div className="max-w-2xl space-y-8">
         {/* Profile */}
-        <div className="glow-card p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl gradient-purple flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
+        <div className="rpg-panel p-8 bg-indigo-950/20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 border border-magenta/40 bg-indigo-950 flex items-center justify-center rotate-45">
+              <User className="w-6 h-6 text-magenta -rotate-45" />
             </div>
             <div>
-              <h2 className="font-semibold">Profile</h2>
-              <p className="text-xs text-muted-foreground">
+              <h2 className="font-mono text-sm font-bold uppercase tracking-tight text-foreground">Profile</h2>
+              <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground mt-1">
                 Your personal information
               </p>
             </div>
           </div>
 
-          <form onSubmit={handleSaveProfile} className="space-y-4">
+          <form onSubmit={handleSaveProfile} className="space-y-6">
             <div>
-              <label className="block text-sm font-medium mb-1.5">Name</label>
+              <label className="block font-mono text-[10px] font-bold uppercase tracking-widest text-magenta/80 mb-2">Name</label>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-background border border-white/10 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all"
+                className="rpg-input"
                 placeholder="Your name"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-1.5">Email</label>
+              <label className="block font-mono text-[10px] font-bold uppercase tracking-widest text-magenta/80 mb-2">Email</label>
               <input
                 type="email"
                 value={email}
                 disabled
-                className="w-full px-3 py-2.5 rounded-lg bg-background border border-white/10 text-sm text-muted-foreground cursor-not-allowed"
+                className="rpg-input opacity-50 cursor-not-allowed"
               />
-              <p className="text-xs text-muted-foreground mt-1">
+              <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground mt-2">
                 Email cannot be changed
               </p>
             </div>
-            <Button
+            <button
               type="submit"
               disabled={saving}
-              className="gradient-purple border-0 text-white hover:opacity-90"
+              className="rpg-button rpg-button-primary px-8 py-3 text-xs"
             >
               {saving ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : null}
-              {saved ? "Saved!" : "Save Changes"}
-            </Button>
+                <div className="flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  SAVING...
+                </div>
+              ) : saved ? "SAVED!" : "SAVE CHANGES"}
+            </button>
           </form>
         </div>
 
         {/* Plan & Billing */}
-        <div className="glow-card p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center">
-              <CreditCard className="w-5 h-5 text-white" />
+        <div className="rpg-panel p-8 bg-indigo-950/20">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 border border-amber-500/40 bg-indigo-950 flex items-center justify-center rotate-45">
+              <CreditCard className="w-6 h-6 text-amber-400 -rotate-45" />
             </div>
             <div>
-              <h2 className="font-semibold">Plan & Billing</h2>
-              <p className="text-xs text-muted-foreground">
+              <h2 className="font-mono text-sm font-bold uppercase tracking-tight text-foreground">Plan & Billing</h2>
+              <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground mt-1">
                 Manage your subscription
               </p>
             </div>
           </div>
 
-          <div className="rounded-lg border border-white/10 bg-background/50 p-4 mb-4">
+          <div className="border border-indigo-900/50 bg-indigo-950/40 p-5 mb-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-medium">
-                  {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan
+                <p className="font-mono text-sm font-bold uppercase tracking-tight text-foreground mb-1">
+                  {plan} Plan
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                   {plan === "free"
                     ? "3 audits per month"
                     : "Unlimited audits"}
                 </p>
               </div>
               <span
-                className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                className={`font-mono text-[9px] font-bold uppercase tracking-widest px-3 py-1 border ${
                   plan === "free"
-                    ? "bg-white/10 text-muted-foreground"
-                    : "bg-primary/20 text-primary"
+                    ? "border-indigo-800/50 text-muted-foreground bg-indigo-950/50"
+                    : "border-magenta/40 text-magenta bg-magenta/5"
                 }`}
               >
                 {plan === "free" ? "Free" : "Active"}
@@ -174,47 +176,45 @@ export default function SettingsPage() {
           </div>
 
           {plan !== "free" && (
-            <Button variant="outline" onClick={handleManageBilling}>
-              Manage Billing
-            </Button>
+            <button onClick={handleManageBilling} className="rpg-button px-6 py-2.5 text-xs">
+              MANAGE BILLING
+            </button>
           )}
         </div>
 
         {/* Danger Zone */}
-        <div className="glow-card p-6 border-destructive/30">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-500 to-red-700 flex items-center justify-center">
-              <Trash2 className="w-5 h-5 text-white" />
+        <div className="rpg-panel p-8 border-red-500/30 bg-red-950/10">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="w-12 h-12 border border-red-500/40 bg-red-950 flex items-center justify-center rotate-45">
+              <Trash2 className="w-6 h-6 text-red-500 -rotate-45" />
             </div>
             <div>
-              <h2 className="font-semibold text-destructive">Danger Zone</h2>
-              <p className="text-xs text-muted-foreground">
+              <h2 className="font-mono text-sm font-bold uppercase tracking-tight text-red-500">Danger Zone</h2>
+              <p className="font-mono text-[9px] uppercase tracking-widest text-red-400/70 mt-1">
                 Irreversible actions
               </p>
             </div>
           </div>
 
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground mb-6 leading-relaxed">
             Permanently delete your account, audit history, and all associated
             data. This action cannot be undone.
           </p>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-1.5">
-                Type <span className="font-mono text-destructive">delete my account</span> to confirm
+              <label className="block font-mono text-[10px] uppercase tracking-widest mb-2 text-muted-foreground">
+                Type <span className="text-red-400 font-bold border border-red-500/30 bg-red-950/30 px-1 py-0.5 mx-1">delete my account</span> to confirm
               </label>
               <input
                 type="text"
                 value={confirmDelete}
                 onChange={(e) => setConfirmDelete(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-lg bg-background border border-destructive/20 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-destructive/50 focus:border-destructive/50 transition-all"
-                placeholder="delete my account"
+                className="w-full h-12 px-4 bg-indigo-950/80 border-2 border-red-900/50 text-sm font-mono text-foreground focus:outline-hidden focus:border-red-500/50 transition-all uppercase"
+                placeholder="DELETE MY ACCOUNT"
               />
             </div>
-            <Button
-              variant="outline"
-              className="border-destructive/50 text-destructive hover:bg-destructive hover:text-white"
+            <button
               disabled={confirmDelete !== "delete my account" || deleting}
               onClick={async () => {
                 setDeleting(true);
@@ -229,12 +229,15 @@ export default function SettingsPage() {
                   setDeleting(false);
                 }
               }}
+              className="rpg-button w-full border-red-900/50 hover:border-red-500 text-red-400 hover:text-red-400 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {deleting ? (
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-              ) : null}
-              {deleting ? "Deleting..." : "Delete Account"}
-            </Button>
+                <div className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  DELETING...
+                </div>
+              ) : "DELETE ACCOUNT"}
+            </button>
           </div>
         </div>
       </div>

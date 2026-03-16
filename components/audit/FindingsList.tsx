@@ -40,21 +40,17 @@ export default function FindingsList({ findings }: FindingsListProps) {
   return (
     <div>
       {/* Category tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2 mb-6 scrollbar-none">
+      <div className="flex gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none">
         <button
           onClick={() => setActiveCategory("all")}
-          className={`relative px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+          className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border ${
             activeCategory === "all"
-              ? "text-primary-foreground"
-              : "bg-secondary/50 text-muted-foreground hover:text-foreground"
+              ? "border-magenta/50 bg-magenta/10 text-magenta shadow-[0_0_10px_rgba(217,70,239,0.2)]"
+              : "border-indigo-900/50 bg-indigo-950/30 text-muted-foreground hover:border-magenta/30 hover:text-foreground"
           }`}
         >
           {activeCategory === "all" && (
-            <motion.div
-              layoutId="findings-tab-indicator"
-              className="absolute inset-0 rounded-lg bg-primary"
-              transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            />
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-magenta" />
           )}
           <span className="relative z-10">All ({findings.length})</span>
         </button>
@@ -62,18 +58,14 @@ export default function FindingsList({ findings }: FindingsListProps) {
           <button
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
-            className={`relative px-4 py-2 rounded-lg text-xs sm:text-sm font-medium whitespace-nowrap transition-colors ${
+            className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border ${
               activeCategory === cat.key
-                ? "text-primary-foreground"
-                : "bg-secondary/50 text-muted-foreground hover:text-foreground"
+                ? "border-magenta/50 bg-magenta/10 text-magenta shadow-[0_0_10px_rgba(217,70,239,0.2)]"
+                : "border-indigo-900/50 bg-indigo-950/30 text-muted-foreground hover:border-magenta/30 hover:text-foreground"
             }`}
           >
             {activeCategory === cat.key && (
-              <motion.div
-                layoutId="findings-tab-indicator"
-                className="absolute inset-0 rounded-lg bg-primary"
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              />
+              <div className="absolute top-0 left-0 right-0 h-0.5 bg-magenta" />
             )}
             <span className="relative z-10">
               {cat.label} ({cat.count})
@@ -90,14 +82,16 @@ export default function FindingsList({ findings }: FindingsListProps) {
           initial="hidden"
           animate="visible"
           exit="hidden"
-          className="space-y-3"
+          className="space-y-4"
         >
           {sortedFindings.length === 0 ? (
             <motion.div
               variants={fadeUp}
-              className="text-center py-12 text-muted-foreground"
+              className="text-center py-12 rpg-panel bg-indigo-950/20 border-indigo-900/50"
             >
-              No findings in this category.
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                No findings in this category.
+              </p>
             </motion.div>
           ) : (
             sortedFindings.map((finding) => (

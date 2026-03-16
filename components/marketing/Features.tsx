@@ -33,28 +33,39 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-24 px-4 section-glow">
+    <section className="py-32 px-4 relative overflow-hidden">
+      <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+
       <div className="relative max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-            Everything you need to{" "}
-            <span className="gradient-text">ship safely</span>
+          <div className="inline-flex items-center gap-3 mb-4 text-center">
+            <div className="h-px w-8 bg-magenta/30" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-magenta">
+              Capabilities
+            </span>
+            <div className="h-px w-8 bg-magenta/30" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta leading-[1.1]">
+            Everything you need to <br />
+            <span className="text-gold glow-text-gold tracking-tight">
+              ship Confidently
+            </span>
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="mt-6 font-mono text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground max-w-2xl mx-auto">
             Comprehensive code analysis designed for non-technical founders.
           </p>
         </motion.div>
 
         {/* Feature cards grid */}
         <motion.div
-          className="grid md:grid-cols-2 gap-6"
+          className="grid md:grid-cols-2 gap-8"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -63,22 +74,36 @@ export default function Features() {
           {features.map((feature) => {
             const Icon = feature.icon;
             return (
-              <motion.div key={feature.title} variants={fadeUp} className="glow-card p-8">
-                <div className="flex items-start gap-5">
-                  <motion.div
-                    className="shrink-0 w-12 h-12 rounded-xl gradient-purple flex items-center justify-center"
-                    whileHover={{ rotate: 12 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    <Icon className="size-6 text-white" />
-                  </motion.div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="text-lg font-semibold text-foreground tracking-tight">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {feature.description}
-                    </p>
+              <motion.div
+                key={feature.title}
+                variants={fadeUp}
+                className="group"
+              >
+                <div className="rpg-panel p-8 h-full flex flex-col gap-6 hover:border-magenta/40 transition-all bg-indigo-950/20">
+                  <div className="flex items-center gap-6">
+                    <div className="shrink-0 size-14 flex items-center justify-center bg-indigo-950 border border-indigo-900 group-hover:border-magenta transition-all">
+                      <Icon className="size-6 text-magenta" />
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-mono text-lg font-bold text-foreground uppercase tracking-tight group-hover:text-magenta transition-colors">
+                        {feature.title}
+                      </h3>
+                      <div className="h-px w-full bg-gradient-to-r from-magenta/30 to-transparent" />
+                    </div>
+                  </div>
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+
+                  <div className="mt-auto flex items-center justify-between opacity-30">
+                    <span className="font-mono text-[9px] uppercase tracking-tighter">
+                      Module: {feature.title.split(" ")[0]}
+                    </span>
+                    <div className="flex gap-1">
+                      <div className="size-1 bg-magenta" />
+                      <div className="size-1 bg-magenta" />
+                      <div className="size-1 bg-magenta" />
+                    </div>
                   </div>
                 </div>
               </motion.div>

@@ -53,10 +53,16 @@ const stats = [
 
 export default function SocialProof() {
   return (
-    <section className="py-24 px-4">
+    <section className="py-24 px-4 relative">
       <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col items-center gap-4 mb-12 text-center">
+          <div className="h-px w-24 bg-indigo-900/50" />
+          <h2 className="font-mono text-[10px] uppercase tracking-[0.4em] text-magenta/60">The Reality of Vibe-Coding</h2>
+          <div className="h-px w-24 bg-indigo-900/50" />
+        </div>
+        
         <motion.div
-          className="grid md:grid-cols-2 gap-6"
+          className="grid md:grid-cols-2 gap-8"
           variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
@@ -66,21 +72,24 @@ export default function SocialProof() {
             <motion.div
               key={item.stat}
               variants={fadeUp}
-              className={`glow-card border-l-4 ${item.borderColor} p-8 flex items-start gap-5`}
+              className="rpg-panel p-8 flex items-start gap-6 group hover:border-magenta/40 transition-all"
             >
-              <div className={`shrink-0 rounded-xl ${item.iconBg} p-3`}>
-                <item.icon className={`size-6 ${item.iconColor}`} />
+              <div className="shrink-0 p-4 bg-indigo-950/50 border border-indigo-900 group-hover:border-magenta/40 transition-all">
+                <item.icon className={`size-8 ${item.iconColor} filter drop-shadow-[0_0_8px_rgba(0,0,0,0.5)]`} />
               </div>
-              <div className="flex flex-col gap-2">
-                <p className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+              <div className="flex flex-col gap-3">
+                <p className="stat-value text-4xl md:text-5xl">
                   <CountUp target={item.target} suffix={item.suffix} />
                 </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="font-mono text-xs uppercase tracking-widest text-foreground leading-relaxed">
                   {item.description}
                 </p>
-                <p className="text-xs text-muted-foreground/60 font-medium mt-1">
-                  Source: {item.source}
-                </p>
+                <div className="flex items-center gap-2 mt-2 opacity-50 group-hover:opacity-100 transition-opacity">
+                  <div className="size-1 bg-indigo-900" />
+                  <p className="font-mono text-[10px] uppercase tracking-tighter text-muted-foreground">
+                    Source: {item.source}
+                  </p>
+                </div>
               </div>
             </motion.div>
           ))}

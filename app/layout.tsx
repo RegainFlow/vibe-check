@@ -47,7 +47,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <PageTransition>{children}</PageTransition>
+          <div className="relative min-h-screen">
+            <div className="atmospheric-overlay" />
+            <PageTransition>{children}</PageTransition>
+          </div>
           <Toaster
             theme="system"
             position="bottom-right"

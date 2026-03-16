@@ -35,7 +35,10 @@ export default async function DashboardLayout({
           name: userName,
           plan,
           auditsUsed: profile?.audits_used_this_month ?? 0,
-          auditsLimit: PLANS[plan].auditsPerMonth === Infinity ? 999 : PLANS[plan].auditsPerMonth,
+          auditsLimit:
+            PLANS[plan].auditsPerMonth === Infinity
+              ? 999
+              : PLANS[plan].auditsPerMonth,
         }}
       />
       <div className="flex-1 md:ml-72 flex flex-col">

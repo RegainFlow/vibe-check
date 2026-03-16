@@ -30,79 +30,76 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 px-4 section-glow">
+    <section id="how-it-works" className="py-32 px-4 relative overflow-hidden">
+      <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+      
       <div className="relative max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
-          className="text-center mb-16"
+          className="text-center mb-20"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeUp}
         >
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+          <div className="inline-flex items-center gap-3 mb-4 text-center">
+            <div className="h-px w-8 bg-magenta/30" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-magenta">The Process</span>
+            <div className="h-px w-8 bg-magenta/30" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta">
             How it works
           </h2>
-          <p className="mt-4 text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p className="mt-6 font-mono text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground max-w-2xl mx-auto">
             Three steps from repo URL to actionable fixes.
           </p>
         </motion.div>
 
         {/* Steps grid */}
-        <motion.div
-          className="grid md:grid-cols-3 gap-6 relative"
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-        >
+        <div className="grid md:grid-cols-3 gap-8 relative">
           {/* Animated connecting line (desktop only) */}
-          <motion.div
-            className="hidden md:block absolute top-[72px] left-[calc(33.333%-12px)] w-[calc(33.333%+24px)] h-0.5 bg-gradient-to-r from-primary/30 via-primary/20 to-primary/30 pointer-events-none origin-left"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          />
+          <div className="hidden md:block absolute top-[100px] left-0 w-full h-px bg-indigo-900/30 pointer-events-none" />
 
           {steps.map((step, index) => (
             <motion.div
               key={step.number}
               variants={fadeUp}
-              className="group relative glow-card p-8"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ delay: index * 0.1 }}
+              className="group relative"
             >
-              {/* Step number watermark */}
-              <span className="text-5xl font-bold text-foreground/[0.03] absolute top-4 right-6 select-none">
-                {step.number}
-              </span>
-
-              <div className="relative flex flex-col gap-4">
-                {/* Icon in gradient circle */}
-                <div className="relative">
-                  <motion.div
-                    className="w-14 h-14 rounded-2xl gradient-purple flex items-center justify-center shadow-lg shadow-primary/20"
-                    whileHover={{ rotate: 12 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                  >
-                    <step.icon className="size-6 text-white" />
-                  </motion.div>
-                  {/* Connector dot */}
-                  {index < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 -right-3 w-2 h-2 rounded-full bg-primary/40 -translate-y-1/2 translate-x-full" />
-                  )}
+              <div className="rpg-panel p-8 h-full flex flex-col gap-6 hover:border-magenta/40 transition-all bg-indigo-950/20">
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] tracking-[0.3em] text-magenta/60 font-bold">
+                    STEP {step.number}
+                  </span>
+                  <div className="size-2 bg-indigo-900 rotate-45" />
                 </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-semibold text-foreground tracking-tight">
-                  {step.title}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
+                <div className="relative">
+                  <div className="size-16 flex items-center justify-center bg-indigo-950 border-2 border-indigo-900 group-hover:border-magenta group-hover:shadow-[0_0_15px_rgba(217,70,239,0.3)] transition-all">
+                    <step.icon className="size-7 text-magenta" />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-3">
+                  <h3 className="font-mono text-lg font-bold text-foreground uppercase tracking-tight group-hover:text-magenta transition-colors">
+                    {step.title}
+                  </h3>
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground leading-relaxed">
+                    {step.description}
+                  </p>
+                </div>
+                
+                <div className="mt-auto pt-4 flex justify-end">
+                  <div className="size-1.5 bg-indigo-900 rounded-full" />
+                </div>
               </div>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

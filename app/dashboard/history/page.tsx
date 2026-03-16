@@ -17,7 +17,7 @@ function extractRepoName(url: string): string {
 function getScoreColor(score: number | null): string {
   if (score === null) return "text-muted-foreground";
   if (score >= 80) return "text-green-400";
-  if (score >= 60) return "text-yellow-400";
+  if (score >= 60) return "text-warning";
   return "text-red-400";
 }
 
@@ -39,13 +39,13 @@ function getStatusConfig(status: Audit["status"]) {
       return {
         icon: <Clock className="w-3.5 h-3.5 text-muted-foreground" />,
         label: "Pending",
-        dot: "bg-gray-500",
+        dot: "bg-indigo-500",
       };
     default:
       return {
-        icon: <Loader2 className="w-3.5 h-3.5 text-primary animate-spin" />,
+        icon: <Loader2 className="w-3.5 h-3.5 text-magenta animate-spin" />,
         label: status.charAt(0).toUpperCase() + status.slice(1),
-        dot: "bg-primary",
+        dot: "bg-magenta",
       };
   }
 }
@@ -89,27 +89,27 @@ export default async function HistoryPage() {
 
   return (
     <div>
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold">Audit History</h1>
-        <p className="text-muted-foreground text-sm mt-1">
+      <div className="mb-8 pb-6 border-b border-indigo-900/30">
+        <h1 className="text-2xl font-mono font-bold uppercase tracking-tight text-foreground glow-text-magenta">Audit History</h1>
+        <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-2">
           All your audits in chronological order
         </p>
       </div>
 
       {(audits ?? []).length > 0 ? (
-        <div className="space-y-8">
+        <div className="space-y-10">
           {Array.from(groupedAudits.entries()).map(([date, dateAudits]) => (
             <div key={date}>
               {/* Date header */}
-              <div className="flex items-center gap-3 mb-4">
-                <h3 className="text-sm font-semibold text-muted-foreground">
+              <div className="flex items-center gap-3 mb-6">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-magenta/80">
                   {date}
                 </h3>
-                <div className="flex-1 h-px bg-white/5" />
+                <div className="flex-1 h-px bg-indigo-900/30" />
               </div>
 
               {/* Timeline entries */}
-              <div className="space-y-3 pl-4 border-l border-white/5">
+              <div className="space-y-4 pl-4 border-l border-indigo-900/30">
                 {(dateAudits as Audit[]).map((audit) => {
                   const status = getStatusConfig(audit.status);
                   return (
@@ -118,23 +118,25 @@ export default async function HistoryPage() {
                       className="relative pl-6"
                     >
                       {/* Timeline dot */}
-                      <div className={`absolute left-0 top-3 -translate-x-[calc(50%+1px)] w-2 h-2 rounded-full ${status.dot}`} />
+                      <div className={`absolute left-0 top-6 -translate-x-[calc(50%+1px)] size-2 ${status.dot} shadow-[0_0_8px_currentColor]`} />
 
-                      <div className="glow-card p-4 flex items-center justify-between gap-4">
+                      <div className="rpg-panel p-5 flex items-center justify-between gap-4 bg-indigo-950/20 hover:border-magenta/40 transition-all">
                         <div className="flex items-center gap-4 min-w-0">
-                          {status.icon}
+                          <div className="shrink-0 p-2 border border-indigo-900 bg-indigo-950">
+                            {status.icon}
+                          </div>
                           <div className="min-w-0">
-                            <span className="font-medium text-sm font-mono truncate block">
+                            <span className="font-mono text-sm font-bold uppercase tracking-tight truncate block group-hover:text-magenta transition-colors">
                               {extractRepoName(audit.repo_url)}
                             </span>
-                            <span className="text-xs text-muted-foreground">
+                            <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground block mt-1">
                               {formatTime(audit.created_at)}
                             </span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-4 shrink-0">
+                        <div className="flex items-center gap-6 shrink-0">
                           <span
-                            className={`text-sm font-bold ${getScoreColor(
+                            className={`font-mono text-lg font-bold tracking-tighter ${getScoreColor(
                               audit.overall_score
                             )}`}
                           >
@@ -144,9 +146,9 @@ export default async function HistoryPage() {
                           </span>
                           <Link
                             href={`/audit/${audit.id}`}
-                            className="inline-flex items-center gap-1 text-sm text-primary hover:text-primary/80 transition-colors"
+                            className="font-mono text-[10px] uppercase tracking-widest text-magenta hover:text-white transition-colors flex items-center gap-1.5"
                           >
-                            View <ExternalLink className="w-3.5 h-3.5" />
+                            View <ExternalLink className="w-3 h-3" />
                           </Link>
                         </div>
                       </div>
@@ -158,13 +160,13 @@ export default async function HistoryPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center py-20 glow-card">
-          <p className="text-muted-foreground mb-4">
+        <div className="text-center py-20 rpg-panel bg-indigo-950/10 border-indigo-900/50 flex flex-col items-center">
+          <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-8">
             No audits yet. Run your first audit to see history here.
           </p>
           <Link
             href="/audit"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg gradient-purple text-white text-sm font-medium hover:opacity-90 transition-opacity"
+            className="rpg-button rpg-button-primary inline-flex items-center gap-2 px-8 py-3 text-xs"
           >
             Start Your First Audit
           </Link>

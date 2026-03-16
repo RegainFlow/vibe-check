@@ -1,6 +1,6 @@
 # VibeCheck
 
-AI-powered code audit platform for non-technical founders. Get a plain-English audit of your AI-built codebase, scored across 7 categories with actionable fix prompts.
+AI-powered code audit platform for non-technical founders. Get a plain-English, veteran inspection of your AI-built codebase, scored across 7 categories with actionable fix prompts. Features a retro 2D dungeon RPG aesthetic.
 
 ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![React](https://img.shields.io/badge/React-19-blue) ![Tailwind](https://img.shields.io/badge/Tailwind-v4-38bdf8) ![Supabase](https://img.shields.io/badge/Supabase-green) ![Stripe](https://img.shields.io/badge/Stripe-purple) ![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o-412991) ![Inngest](https://img.shields.io/badge/Inngest-orange)
 

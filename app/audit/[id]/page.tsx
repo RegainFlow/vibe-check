@@ -131,22 +131,23 @@ export default function AuditResultPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-28 pb-24 px-4">
-        <div className="max-w-5xl mx-auto">
+      <main className="pt-32 pb-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 dungeon-gradient pointer-events-none" />
+        <div className="scanline" />
+
+        <div className="max-w-5xl mx-auto relative z-10">
           {/* Progress view */}
           {(isRunning || (!audit && !error)) && (
-            <div className="max-w-lg mx-auto">
-              <h1 className="text-2xl font-bold text-center mb-2">
+            <div className="max-w-lg mx-auto rpg-panel p-10 bg-indigo-950/20">
+              <h1 className="text-2xl font-mono font-bold uppercase tracking-tight text-center mb-2 glow-text-magenta text-foreground">
                 Analyzing your code...
               </h1>
-              <p className="text-muted-foreground text-center mb-10">
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground text-center mb-10">
                 This usually takes 30-60 seconds
               </p>
 
-              <div className="relative space-y-4">
-                {/* Animated gradient background */}
-                <div className="absolute -inset-4 bg-gradient-to-b from-primary/5 via-transparent to-transparent rounded-2xl pointer-events-none" />
-
+              <div className="space-y-4">
                 {STEPS.map((step) => {
                   const stepIndex = STATUS_ORDER.indexOf(
                     step.key as AuditStatus
@@ -158,37 +159,39 @@ export default function AuditResultPage() {
                   return (
                     <div
                       key={step.key}
-                      className={`relative flex items-center gap-4 p-4 rounded-xl border transition-all ${
+                      className={`relative flex items-center gap-4 p-4 transition-all border ${
                         isActive
-                          ? "border-primary/50 bg-primary/5 shadow-[0_0_20px_rgba(124,58,237,0.1)]"
+                          ? "border-magenta/50 bg-magenta/5 shadow-[0_0_15px_rgba(217,70,239,0.2)]"
                           : isComplete
-                          ? "border-success/20 bg-success/5"
-                          : "border-white/5 bg-card/30"
+                          ? "border-green-500/20 bg-green-500/5"
+                          : "border-indigo-900/30 bg-indigo-950/20"
                       }`}
                     >
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        className={`w-10 h-10 border flex items-center justify-center rotate-45 ${
                           isActive
-                            ? "gradient-purple text-white"
+                            ? "border-magenta bg-indigo-950 text-magenta"
                             : isComplete
-                            ? "bg-success/20 text-success"
-                            : "bg-muted text-muted-foreground"
+                            ? "border-green-500 bg-green-950 text-green-400"
+                            : "border-indigo-900 bg-indigo-950 text-muted-foreground"
                         }`}
                       >
-                        {isActive ? (
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                        ) : isComplete ? (
-                          <CheckCircle2 className="w-5 h-5" />
-                        ) : (
-                          <Icon className="w-5 h-5" />
-                        )}
+                        <div className="-rotate-45">
+                          {isActive ? (
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                          ) : isComplete ? (
+                            <CheckCircle2 className="w-5 h-5" />
+                          ) : (
+                            <Icon className="w-5 h-5" />
+                          )}
+                        </div>
                       </div>
                       <span
-                        className={`font-medium ${
+                        className={`font-mono text-xs font-bold uppercase tracking-widest ${
                           isActive
                             ? "text-foreground"
                             : isComplete
-                            ? "text-success"
+                            ? "text-green-400"
                             : "text-muted-foreground"
                         }`}
                       >
@@ -203,16 +206,18 @@ export default function AuditResultPage() {
 
           {/* Error view */}
           {audit?.status === "failed" && (
-            <div className="max-w-lg mx-auto text-center">
-              <XCircle className="w-16 h-16 text-destructive mx-auto mb-4" />
-              <h1 className="text-2xl font-bold mb-2">Audit Failed</h1>
-              <p className="text-muted-foreground mb-6">
+            <div className="max-w-lg mx-auto text-center rpg-panel p-10 bg-red-950/10 border-red-500/30">
+              <div className="w-16 h-16 border-2 border-red-500/50 bg-red-950 flex items-center justify-center rotate-45 mx-auto mb-8">
+                <XCircle className="w-8 h-8 text-red-500 -rotate-45" />
+              </div>
+              <h1 className="text-2xl font-mono font-bold uppercase tracking-tight mb-2 text-red-500">Audit Failed</h1>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-8">
                 {audit.error_message || "Something went wrong during analysis."}
               </p>
-              <Button onClick={handleRescan} className="gradient-purple border-0 text-white hover:opacity-90">
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Try Again
-              </Button>
+              <button onClick={handleRescan} className="rpg-button border-red-900 hover:border-red-500 hover:text-red-400 px-8 py-3 text-xs flex items-center gap-2 mx-auto">
+                <RotateCcw className="w-4 h-4" />
+                TRY AGAIN
+              </button>
             </div>
           )}
 
@@ -220,35 +225,36 @@ export default function AuditResultPage() {
           {audit?.status === "completed" && audit.scores && (
             <>
               {/* Header */}
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-12">
                 <div>
-                  <h1 className="text-xl sm:text-2xl font-bold mb-1">Audit Results</h1>
-                  <p className="text-muted-foreground text-sm">
-                    {audit.metadata?.repoOwner}/{audit.metadata?.repoName} &middot;{" "}
+                  <h1 className="text-2xl sm:text-4xl font-mono font-bold uppercase tracking-tighter mb-2 text-foreground glow-text-magenta">Audit Results</h1>
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+                    <span className="text-magenta">{audit.metadata?.repoOwner}/{audit.metadata?.repoName}</span>
+                    <span className="size-1 bg-indigo-900 rotate-45" />
                     {audit.total_files} files analyzed
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <Button variant="outline" onClick={handleShare}>
-                    <Share2 className="w-4 h-4 mr-2" />
-                    {copied ? "Copied!" : "Share Report"}
-                  </Button>
-                  <Button variant="outline" onClick={handleRescan}>
-                    <RotateCcw className="w-4 h-4 mr-2" />
-                    Re-scan
-                  </Button>
+                  <button onClick={handleShare} className="rpg-button px-4 py-2 text-[10px] flex items-center gap-2">
+                    <Share2 className="w-3.5 h-3.5" />
+                    {copied ? "COPIED!" : "SHARE REPORT"}
+                  </button>
+                  <button onClick={handleRescan} className="rpg-button px-4 py-2 text-[10px] flex items-center gap-2 border-indigo-500/50 hover:border-indigo-400">
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    RE-SCAN
+                  </button>
                 </div>
               </div>
 
-              {/* Overall Score with confetti-like burst */}
-              <div className="relative flex flex-col items-center mb-12 p-8 rounded-2xl border border-white/10 bg-card/50 backdrop-blur-sm overflow-hidden">
-                {/* Confetti burst effect */}
+              {/* Overall Score */}
+              <div className="relative flex flex-col items-center mb-16 p-12 rpg-panel bg-indigo-950/20 overflow-hidden">
+                {/* Confetti burst effect via scanning lines */}
                 <div className="absolute inset-0 pointer-events-none">
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.5s both" }} />
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(34,197,94,0.1) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.8s both" }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-64 sm:h-64 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(217,70,239,0.15) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.5s both" }} />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 rounded-full opacity-0" style={{ background: "radial-gradient(circle, rgba(253,224,71,0.1) 0%, transparent 60%)", animation: "confetti-burst 2s ease-out 1.8s both" }} />
                 </div>
 
-                <p className="text-sm text-muted-foreground mb-4 uppercase tracking-wider">
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.4em] text-magenta/80 mb-6 text-center">
                   Launch Readiness Score
                 </p>
                 <ScoreGauge
@@ -262,8 +268,11 @@ export default function AuditResultPage() {
               <ScoreOverview scores={audit.scores} />
 
               {/* Findings */}
-              <div className="mt-12">
-                <h2 className="text-xl font-bold mb-6">Findings</h2>
+              <div className="mt-16">
+                <div className="flex items-center gap-4 mb-8">
+                  <h2 className="font-mono text-lg font-bold uppercase tracking-[0.2em] text-foreground">Findings</h2>
+                  <div className="h-px flex-1 bg-indigo-900/30" />
+                </div>
                 <FindingsList findings={findings} />
               </div>
             </>

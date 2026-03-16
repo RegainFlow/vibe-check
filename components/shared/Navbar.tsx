@@ -15,52 +15,56 @@ export default function Navbar() {
   const howItWorksHref = pathname === "/" ? "#how-it-works" : "/#how-it-works";
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/70 backdrop-blur-2xl border-b border-border/50">
-      <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/40 backdrop-blur-md border-b border-indigo-900/30 w-full">
+      <div className="w-full px-4 sm:px-8 h-16 flex items-center justify-between relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/10 to-transparent pointer-events-none" />
+
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <CheckCircle className="size-5 text-primary" />
-          <span className="text-lg font-bold tracking-tight text-foreground">
+        <Link href="/" className="flex items-center gap-2 group relative z-10">
+          <div className="size-8 flex items-center justify-center bg-indigo-950 border border-magenta/40 rounded-sm rotate-45 group-hover:border-magenta group-hover:shadow-[0_0_10px_rgba(217,70,239,0.5)] transition-all">
+            <CheckCircle className="size-5 text-magenta -rotate-45" />
+          </div>
+          <span className="text-xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta">
             VibeCheck
           </span>
         </Link>
 
-        {/* Nav links (desktop) */}
-        <div className="hidden sm:flex items-center gap-8">
-          <Link
-            href={howItWorksHref}
-            className="relative text-sm text-muted-foreground hover:text-foreground transition-colors group"
-          >
-            How It Works
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
-          </Link>
-          <Link
-            href="/pricing"
-            className="relative text-sm text-muted-foreground hover:text-foreground transition-colors group"
-          >
-            Pricing
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-primary to-accent transition-all duration-300 group-hover:w-full" />
-          </Link>
-        </div>
+        {/* Right side group */}
+        <div className="flex items-center gap-4 relative z-10">
+          {/* Nav links (desktop) */}
+          <div className="hidden sm:flex items-center gap-6 mr-2">
+            <Link
+              href={howItWorksHref}
+              className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-magenta transition-colors relative py-1"
+            >
+              How It Works
+            </Link>
+            <Link
+              href="/pricing"
+              className="font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground hover:text-magenta transition-colors relative py-1"
+            >
+              Pricing
+            </Link>
+          </div>
 
-        {/* Right side */}
-        <div className="flex items-center gap-3">
-          <ThemeToggle />
-          <AuthButton />
-          <Link href="/audit" className="hidden sm:block">
-            <Button className="h-9 px-4 text-sm font-semibold bg-primary hover:bg-primary/90 transition-colors">
-              Start Free Audit
-            </Button>
-          </Link>
+          <div className="hidden sm:flex items-center gap-4 border-l border-indigo-900/50 pl-4">
+            <ThemeToggle />
+            <AuthButton />
+            <Link href="/audit">
+              <button className="rpg-button rpg-button-primary text-xs font-bold py-1.5 px-6 h-auto">
+                Start Free Audit
+              </button>
+            </Link>
+          </div>
 
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="sm:hidden size-9 flex items-center justify-center rounded-lg hover:bg-secondary/50 transition-colors"
+            className="sm:hidden size-9 flex items-center justify-center border border-indigo-900/50 bg-indigo-950/50 hover:border-magenta/50 transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? (
-              <X className="size-5 text-foreground" />
+              <X className="size-5 text-magenta" />
             ) : (
               <Menu className="size-5 text-foreground" />
             )}
@@ -72,38 +76,37 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 top-16 z-50 bg-background/95 backdrop-blur-xl sm:hidden"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed inset-0 top-16 z-50 bg-background/95 backdrop-blur-xl sm:hidden border-t border-indigo-900/50"
           >
-            <div className="flex flex-col gap-2 p-6">
+            <div className="flex flex-col gap-4 p-8 rpg-grid h-full">
               <Link
                 href={howItWorksHref}
                 onClick={() => setMobileOpen(false)}
-                className="text-lg font-medium text-foreground py-3 border-b border-border/50"
+                className="font-mono text-lg uppercase tracking-widest text-foreground py-4 border-b border-indigo-900/30"
               >
                 How It Works
               </Link>
               <Link
                 href="/pricing"
                 onClick={() => setMobileOpen(false)}
-                className="text-lg font-medium text-foreground py-3 border-b border-border/50"
+                className="font-mono text-lg uppercase tracking-widest text-foreground py-4 border-b border-indigo-900/30"
               >
                 Pricing
               </Link>
-              <div className="py-3 border-b border-border/50">
+              <div className="py-4 border-b border-indigo-900/30">
                 <AuthButton />
               </div>
               <Link
                 href="/audit"
                 onClick={() => setMobileOpen(false)}
-                className="mt-4"
+                className="mt-6"
               >
-                <Button className="w-full h-12 text-base font-semibold gradient-purple border-0 text-white">
+                <button className="rpg-button rpg-button-primary w-full py-4 text-sm">
                   Start Free Audit
-                </Button>
+                </button>
               </Link>
             </div>
           </motion.div>
