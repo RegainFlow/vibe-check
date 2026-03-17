@@ -52,7 +52,7 @@ export default function Features() {
             </span>
             <div className="h-px w-8 bg-magenta/30" />
           </div>
-          <h2 className="text-3xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta leading-[1.1]">
+          <h2 className="text-2xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta leading-[1.1]">
             Everything you need to <br />
             <span className="text-cyan glow-text-cyan tracking-tight">
               ship Confidently

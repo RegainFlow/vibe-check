@@ -121,8 +121,8 @@ export function FindingCard({ finding, recommendedSkill, observability }: Findin
     <div className={`rpg-panel border-2 ${config.border} bg-indigo-950/20 overflow-hidden animate-card-enter`}>
       {/* Header */}
       <div className="p-4 md:p-6">
-        <div className="flex items-start gap-4">
-          <div className={`shrink-0 mt-0.5 p-2 bg-indigo-950 border rounded-lg ${config.border}`}>
+        <div className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4">
+          <div className={`shrink-0 mt-0.5 p-2 bg-indigo-950 border rounded-lg ${config.border} w-fit`}>
             <SeverityIcon className={`w-4 h-4 ${config.color}`} />
           </div>
           <div className="flex-1 min-w-0">
@@ -147,7 +147,7 @@ export function FindingCard({ finding, recommendedSkill, observability }: Findin
 
         {/* Observability badges */}
         {observability && (
-          <div className="flex items-center justify-between gap-3 mt-3 ml-12 flex-wrap">
+          <div className="flex items-center justify-between gap-3 mt-3 ml-0 sm:ml-12 flex-wrap">
             <div className="flex items-center gap-2">
               <span className={`font-mono text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 border rounded-md ${EFFORT_BADGE[observability.aiFixEffort]}`}>
                 {EFFORT_LABELS[observability.aiFixEffort]}
@@ -164,7 +164,7 @@ export function FindingCard({ finding, recommendedSkill, observability }: Findin
 
         {/* File info */}
         {finding.file_path && (
-          <div className="flex items-center gap-2 mt-4 ml-12 text-xs text-muted-foreground bg-indigo-950/40 p-2 border border-indigo-900/30 rounded-lg">
+          <div className="flex items-center gap-2 mt-4 ml-0 sm:ml-12 text-xs text-muted-foreground bg-indigo-950/40 p-2 border border-indigo-900/30 rounded-lg">
             <FileCode className="w-3.5 h-3.5 text-magenta" />
             <span className="font-mono text-[10px]">
               {finding.file_path}
@@ -176,7 +176,7 @@ export function FindingCard({ finding, recommendedSkill, observability }: Findin
         {/* Expand toggle */}
         <button
           onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-2 ml-12 mt-4 font-mono text-[10px] uppercase tracking-widest text-magenta hover:text-white transition-colors cursor-pointer"
+          className="flex items-center gap-2 ml-0 sm:ml-12 mt-4 font-mono text-[10px] uppercase tracking-widest text-magenta hover:text-white transition-colors cursor-pointer"
         >
           <motion.span
             animate={{ rotate: expanded ? 180 : 0 }}
@@ -270,31 +270,31 @@ export function FindingCard({ finding, recommendedSkill, observability }: Findin
                     )}
 
                     {/* Action buttons */}
-                    <div className="flex flex-wrap gap-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <button
                         onClick={handleCopyClaudePrompt}
-                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center gap-2"
+                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center justify-center gap-2 w-full sm:w-auto"
                       >
                         <Copy className="w-3 h-3" />
                         COPY FOR CLAUDE
                       </button>
                       <button
                         onClick={handleCopyCodexPrompt}
-                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center gap-2"
+                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center justify-center gap-2 w-full sm:w-auto"
                       >
                         <Copy className="w-3 h-3" />
                         COPY FOR CODEX
                       </button>
                       <button
                         onClick={handleOpenSkillSource}
-                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center gap-2"
+                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center justify-center gap-2 w-full sm:w-auto"
                       >
                         <ExternalLink className="w-3 h-3" />
                         OPEN SKILL SOURCE
                       </button>
                       <button
                         onClick={handleCopyVibeCheckPrompt}
-                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center gap-2"
+                        className="rpg-button rpg-button-secondary px-3 py-1.5 text-[9px] flex items-center justify-center gap-2 w-full sm:w-auto"
                       >
                         <Wand2 className="w-3 h-3" />
                         VIBECHECK PROMPT

@@ -79,7 +79,7 @@ export default function Navbar() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-0 top-16 z-50 bg-background/95 backdrop-blur-xl sm:hidden border-t border-indigo-900/50"
+            className="bg-background sm:hidden border-t border-indigo-900/50"
           >
             <div className="flex flex-col gap-4 p-8 rpg-grid h-full">
               <Link
@@ -96,7 +96,7 @@ export default function Navbar() {
               >
                 Pricing
               </Link>
-              <div className="py-4 border-b border-indigo-900/30">
+              <div className="py-4 border-b border-indigo-900/30 [&_a]:font-mono [&_a]:text-lg [&_a]:uppercase [&_a]:tracking-widest [&_a]:text-foreground [&_button]:font-mono [&_button]:text-lg [&_button]:uppercase [&_button]:tracking-widest">
                 <AuthButton />
               </div>
               <Link

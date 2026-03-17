@@ -125,7 +125,7 @@ export default function Hero() {
           animate="visible"
         >
           <motion.div variants={fadeUp} className="flex flex-col gap-6">
-            <h1 className="text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] uppercase glow-text-magenta">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] uppercase glow-text-magenta">
               Ship your Vibecoded app <br />
               <span className="text-cyan glow-text-cyan">with confidence.</span>
             </h1>
@@ -157,7 +157,7 @@ export default function Hero() {
               </div>
               <button
                 type="submit"
-                className="rpg-button rpg-button-primary h-14 px-8 text-sm font-bold flex items-center justify-center gap-3 shrink-0"
+                className="rpg-button rpg-button-primary h-14 px-8 text-sm font-bold flex items-center justify-center gap-3 shrink-0 whitespace-nowrap"
               >
                 Run Free Audit
                 <ArrowRight className="size-4" />

@@ -140,7 +140,7 @@ function FallbackReport() {
                 className={`rpg-panel border-2 ${config.border} bg-indigo-950/10 p-6 group transition-all hover:-translate-y-1`}
               >
                 <div className="flex flex-col gap-4">
-                  <div className="flex items-center gap-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <div className={`p-2 bg-indigo-950 border rounded-lg ${config.border}`}>
                       <Icon className={`size-4 ${config.color}`} />
                     </div>
@@ -153,10 +153,10 @@ function FallbackReport() {
                       </h4>
                     </div>
                   </div>
-                  <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground leading-relaxed pl-12 border-l border-indigo-900/30 ml-3">
+                  <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground leading-relaxed pl-0 ml-0 sm:pl-12 sm:border-l sm:border-indigo-900/30 sm:ml-3">
                     {finding.description}
                   </p>
-                  <div className="pl-12 ml-3">
+                  <div className="sm:pl-12 sm:ml-3">
                     <CopyFixButton prompt={finding.fixPrompt} />
                   </div>
                 </div>

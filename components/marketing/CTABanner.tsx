@@ -42,7 +42,7 @@ export default function CTABanner() {
           </p>
           
           <Link href="/audit" className="mt-4">
-            <button className="rpg-button rpg-button-primary h-16 px-12 text-lg font-bold flex items-center gap-4 group/btn">
+            <button className="rpg-button rpg-button-primary h-14 sm:h-16 px-8 sm:px-12 text-base sm:text-lg font-bold flex items-center gap-4 group/btn whitespace-nowrap">
               Start Free Audit
               <ArrowRight className="size-6 group-hover/btn:translate-x-1 transition-transform" />
             </button>

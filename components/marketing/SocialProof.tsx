@@ -158,7 +158,7 @@ export default function SocialProof({ stats }: { stats: PlatformStats }) {
                   <motion.div
                     key={item.key}
                     variants={fadeUp}
-                    className="group"
+                    className="group h-full"
                   >
                     <div className="rpg-panel p-6 flex flex-col items-center gap-3 text-center hover:border-magenta/40 transition-all bg-indigo-950/20">
                       <div className="shrink-0 size-10 flex items-center justify-center bg-indigo-950 border border-indigo-900 rounded-lg group-hover:border-magenta transition-all">

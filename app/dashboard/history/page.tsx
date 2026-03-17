@@ -109,18 +109,18 @@ export default async function HistoryPage() {
               </div>
 
               {/* Timeline entries */}
-              <div className="space-y-4 pl-4 border-l border-indigo-900/30">
+              <div className="space-y-4 pl-2 sm:pl-4 border-l border-indigo-900/30">
                 {(dateAudits as Audit[]).map((audit) => {
                   const status = getStatusConfig(audit.status);
                   return (
                     <div
                       key={audit.id}
-                      className="relative pl-6"
+                      className="relative pl-4 sm:pl-6"
                     >
                       {/* Timeline dot */}
                       <div className={`absolute left-0 top-6 -translate-x-[calc(50%+1px)] size-2 ${status.dot} shadow-[0_0_8px_currentColor]`} />
 
-                      <div className="rpg-panel p-5 flex items-center justify-between gap-4 bg-indigo-950/20 hover:border-magenta/40 transition-all">
+                      <div className="rpg-panel p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-indigo-950/20 hover:border-magenta/40 transition-all">
                         <div className="flex items-center gap-4 min-w-0">
                           <div className="shrink-0 p-2 border border-indigo-900 bg-indigo-950">
                             {status.icon}
@@ -134,7 +134,7 @@ export default async function HistoryPage() {
                             </span>
                           </div>
                         </div>
-                        <div className="flex items-center gap-6 shrink-0">
+                        <div className="flex items-center gap-4 sm:gap-6 w-full sm:w-auto justify-between sm:justify-end">
                           <span
                             className={`font-mono text-lg font-bold tracking-tighter ${getScoreColor(
                               audit.overall_score
