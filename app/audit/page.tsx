@@ -86,31 +86,33 @@ export default function AuditPage() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="pt-32 pb-24 px-4">
-        <div className="max-w-2xl mx-auto">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-center mb-3">
-            Audit Your <span className="gradient-text">Codebase</span>
-          </h1>
-          <p className="text-muted-foreground text-center mb-10 text-lg">
-            Paste a GitHub URL or upload a ZIP file to get started
-          </p>
+      <main className="pt-40 pb-24 px-4 relative overflow-hidden">
+        <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+        <div className="absolute inset-0 dungeon-gradient pointer-events-none" />
+        <div className="scanline" />
+
+        <div className="max-w-2xl mx-auto relative z-10">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-mono font-bold tracking-tighter mb-4 uppercase glow-text-magenta">
+              Audit Your <span className="text-cyan glow-text-cyan">Codebase</span>
+            </h1>
+            <p className="font-mono text-xs md:text-sm uppercase tracking-widest text-muted-foreground">
+              Paste a GitHub URL or upload a ZIP file to get started
+            </p>
+          </div>
 
           {/* Tabs */}
-          <div className="flex gap-1 p-1 rounded-lg bg-secondary/50 mb-8 max-w-xs mx-auto relative">
+          <div className="flex gap-2 p-1 mb-8 max-w-sm mx-auto relative border border-indigo-900/50 bg-indigo-950/20 rounded-lg">
             <button
               onClick={() => setTab("github")}
-              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all cursor-pointer ${
                 tab === "github"
-                  ? "text-white"
+                  ? "text-magenta border border-magenta/40 bg-magenta/5"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab === "github" && (
-                <motion.div
-                  layoutId="audit-tab-indicator"
-                  className="absolute inset-0 rounded-md gradient-purple shadow-lg shadow-primary/20"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-magenta" />
               )}
               <span className="relative z-10 flex items-center gap-2">
                 <Github className="w-4 h-4" />
@@ -119,18 +121,14 @@ export default function AuditPage() {
             </button>
             <button
               onClick={() => setTab("zip")}
-              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-md text-sm font-medium transition-all ${
+              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all cursor-pointer ${
                 tab === "zip"
-                  ? "text-white"
+                  ? "text-magenta border border-magenta/40 bg-magenta/5"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab === "zip" && (
-                <motion.div
-                  layoutId="audit-tab-indicator"
-                  className="absolute inset-0 rounded-md gradient-purple shadow-lg shadow-primary/20"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
+                <div className="absolute top-0 left-0 right-0 h-0.5 bg-magenta" />
               )}
               <span className="relative z-10 flex items-center gap-2">
                 <Upload className="w-4 h-4" />
@@ -149,50 +147,56 @@ export default function AuditPage() {
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
                 onSubmit={handleSubmitGithub}
-                className="space-y-4"
+                className="space-y-6"
               >
                 {/* Terminal-style frame */}
-                <div className="terminal-card">
-                  <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-                    <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/70" />
-                    <span className="ml-3 text-xs text-muted-foreground font-mono">
-                      repository
-                    </span>
+                <div className="terminal-frame shadow-[0_0_30px_rgba(0,0,0,0.5)]">
+                  <div className="terminal-header">
+                    <div className="flex items-center gap-2">
+                      <div className="size-2.5 rounded-full bg-red-500/70" />
+                      <div className="size-2.5 rounded-full bg-yellow-500/70" />
+                      <div className="size-2.5 rounded-full bg-green-500/70" />
+                      <span className="ml-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                        repository
+                      </span>
+                    </div>
                   </div>
-                  <div className="p-6">
-                    <label className="block text-sm font-medium mb-2">
+                  <div className="p-8 bg-indigo-950/20">
+                    <label className="block font-mono text-xs font-bold uppercase tracking-widest mb-4 text-magenta/80">
                       Repository URL
                     </label>
-                    <div className="relative">
-                      <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                      <input
-                        type="url"
-                        value={repoUrl}
-                        onChange={(e) => setRepoUrl(e.target.value)}
-                        placeholder="https://github.com/owner/repo"
-                        className="w-full pl-11 pr-4 py-3 rounded-lg bg-background border border-white/10 text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary/50 focus:border-primary/50 focus:shadow-[0_0_20px_rgba(124,58,237,0.15)] transition-all"
-                        disabled={isLoading}
-                      />
+                    <div className="relative group">
+                      <div className="absolute -inset-1 bg-magenta/20 blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity" />
+                      <div className="relative">
+                        <Github className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-indigo-800" />
+                        <input
+                          type="url"
+                          value={repoUrl}
+                          onChange={(e) => setRepoUrl(e.target.value)}
+                          placeholder="https://github.com/owner/repo"
+                          className="rpg-input pl-12 h-14 w-full bg-indigo-950 border-2 border-indigo-900 focus:border-magenta/50"
+                          disabled={isLoading}
+                        />
+                      </div>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mt-4">
                       Public repositories only. Private repo support coming soon.
                     </p>
                   </div>
                 </div>
-                <Button
+                
+                <button
                   type="submit"
                   disabled={isLoading || !repoUrl.trim()}
-                  className="w-full h-12 text-base gradient-purple border-0 text-white hover:opacity-90 transition-opacity animate-glow-pulse"
+                  className="rpg-button rpg-button-primary w-full h-16 text-sm font-bold flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin mr-2" />
                   ) : (
-                    <ArrowRight className="w-5 h-5 mr-2" />
+                    <ArrowRight className="size-5 group-hover/btn:translate-x-1 transition-transform" />
                   )}
-                  {isLoading ? "Starting Audit..." : "Start Audit"}
-                </Button>
+                  {isLoading ? "STARTING AUDIT..." : "START AUDIT"}
+                </button>
               </motion.form>
             )}
 
@@ -204,13 +208,16 @@ export default function AuditPage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="space-y-4"
+                className="space-y-6"
               >
                 <motion.div
                   animate={{
                     borderColor: dragOver
-                      ? "rgba(124, 58, 237, 1)"
-                      : "rgba(255, 255, 255, 0.1)",
+                      ? "rgba(217, 70, 239, 0.8)"
+                      : "rgba(49, 46, 129, 0.5)",
+                    backgroundColor: dragOver
+                      ? "rgba(49, 46, 129, 0.3)"
+                      : "rgba(30, 27, 75, 0.2)",
                   }}
                   transition={{ duration: 0.2 }}
                   onDragOver={(e) => {
@@ -224,17 +231,15 @@ export default function AuditPage() {
                     const file = e.dataTransfer.files[0];
                     if (file) handleZipUpload(file);
                   }}
-                  className={`rounded-xl border-2 border-dashed p-6 sm:p-12 text-center transition-all ${
-                    dragOver
-                      ? "bg-primary/5 shadow-[0_0_30px_rgba(124,58,237,0.15)]"
-                      : "bg-card/50"
-                  }`}
+                  className="rpg-panel border-2 border-dashed p-10 sm:p-16 text-center transition-all flex flex-col items-center"
                 >
-                  <Upload className="w-10 h-10 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-lg font-medium mb-1">
+                  <div className="size-16 border border-indigo-900 flex items-center justify-center bg-indigo-950 mb-6 rotate-45 rounded-sm">
+                    <Upload className="w-6 h-6 text-magenta -rotate-45" />
+                  </div>
+                  <p className="font-mono text-sm font-bold uppercase tracking-widest mb-2 text-foreground">
                     Drop your ZIP file here
                   </p>
-                  <p className="text-sm text-muted-foreground mb-4">
+                  <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground mb-8">
                     or click to browse
                   </p>
                   <input
@@ -248,19 +253,19 @@ export default function AuditPage() {
                     }}
                     disabled={isLoading}
                   />
-                  <Button
+                  <button
                     type="button"
-                    variant="outline"
+                    className="rpg-button rpg-button-secondary px-8 py-3 text-xs flex items-center justify-center"
                     onClick={() => document.getElementById("zip-upload")?.click()}
                     disabled={isLoading}
                   >
                     {isLoading ? (
                       <Loader2 className="w-4 h-4 animate-spin mr-2" />
                     ) : null}
-                    {isLoading ? "Uploading..." : "Choose File"}
-                  </Button>
+                    {isLoading ? "UPLOADING..." : "CHOOSE FILE"}
+                  </button>
                 </motion.div>
-                <p className="text-xs text-muted-foreground text-center">
+                <p className="text-center font-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">
                   Max 50MB. The ZIP will be extracted and analyzed server-side.
                 </p>
               </motion.div>
@@ -273,9 +278,11 @@ export default function AuditPage() {
               key={error}
               animate={{ x: [0, -8, 8, -8, 8, 0] }}
               transition={{ duration: 0.4 }}
-              className="mt-4 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm"
+              className="mt-6 p-4 rpg-panel border-red-500/30 bg-red-500/10 text-center"
             >
-              {error}
+              <p className="font-mono text-xs font-bold uppercase tracking-widest text-red-400">
+                {error}
+              </p>
             </motion.div>
           )}
         </div>

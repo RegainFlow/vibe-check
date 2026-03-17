@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { DashboardNav } from "@/components/dashboard/DashboardNav";
-import { DashboardTopBar } from "@/components/dashboard/DashboardTopBar";
+import { DashboardShell } from "@/components/dashboard/DashboardShell";
 import { PLANS } from "@/lib/constants";
 
 export default async function DashboardLayout({
@@ -28,20 +27,19 @@ export default async function DashboardLayout({
   const userName = profile?.full_name ?? user.email ?? "";
 
   return (
-    <div className="min-h-screen bg-background flex">
-      <DashboardNav
-        user={{
-          email: user.email ?? "",
-          name: userName,
-          plan,
-          auditsUsed: profile?.audits_used_this_month ?? 0,
-          auditsLimit: PLANS[plan].auditsPerMonth === Infinity ? 999 : PLANS[plan].auditsPerMonth,
-        }}
-      />
-      <div className="flex-1 md:ml-72 flex flex-col">
-        <DashboardTopBar userName={userName} />
-        <main className="flex-1 p-6 md:p-8">{children}</main>
-      </div>
-    </div>
+    <DashboardShell
+      user={{
+        email: user.email ?? "",
+        name: userName,
+        plan,
+        auditsUsed: profile?.audits_used_this_month ?? 0,
+        auditsLimit:
+          PLANS[plan].auditsPerMonth === Infinity
+            ? 999
+            : PLANS[plan].auditsPerMonth,
+      }}
+    >
+      {children}
+    </DashboardShell>
   );
 }

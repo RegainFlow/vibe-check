@@ -66,34 +66,39 @@ export default async function SharedReportPage({ params }: Props) {
   } | null;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+      <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+      <div className="absolute inset-0 dungeon-gradient pointer-events-none" />
+      <div className="scanline" />
+
       {/* Simple header for shared reports */}
-      <header className="border-b border-white/5 bg-background/60 backdrop-blur-xl">
-        <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="text-lg font-bold tracking-tight text-foreground">
+      <header className="border-b border-indigo-900/50 bg-indigo-950/20 backdrop-blur-xl relative z-10">
+        <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-lg font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta">
               VibeCheck
             </span>
-            <span className="text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+            <span className="font-mono text-[9px] font-bold uppercase tracking-widest text-muted-foreground border border-indigo-900/50 bg-indigo-950 px-2 py-1">
               Shared Report
             </span>
           </div>
           <a
             href="/"
-            className="text-sm text-primary hover:text-primary/80 transition-colors"
+            className="font-mono text-[10px] uppercase tracking-widest text-magenta hover:text-white transition-colors"
           >
             Run your own audit &rarr;
           </a>
         </div>
       </header>
 
-      <main className="py-12 px-4">
+      <main className="py-16 px-4 relative z-10">
         <div className="max-w-5xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold mb-1">Audit Report</h1>
-            <p className="text-muted-foreground text-sm">
-              {auditMetadata?.repoOwner}/{auditMetadata?.repoName} &middot;{" "}
+          <div className="mb-12">
+            <h1 className="text-2xl sm:text-4xl font-mono font-bold uppercase tracking-tighter mb-2 text-foreground glow-text-magenta">Audit Report</h1>
+            <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground flex items-center gap-2">
+              <span className="text-magenta">{auditMetadata?.repoOwner}/{auditMetadata?.repoName}</span>
+              <span className="size-1 bg-indigo-900 rotate-45" />
               {audit.total_files} files analyzed
             </p>
           </div>
@@ -101,8 +106,8 @@ export default async function SharedReportPage({ params }: Props) {
           {/* Overall Score */}
           {auditScores && (
             <>
-              <div className="flex flex-col items-center mb-12 p-8 rounded-2xl border border-white/10 bg-card/50 backdrop-blur-sm">
-                <p className="text-sm text-muted-foreground mb-4 uppercase tracking-wider">
+              <div className="relative flex flex-col items-center mb-16 p-12 rpg-panel bg-indigo-950/20 overflow-hidden">
+                <p className="font-mono text-xs font-bold uppercase tracking-[0.4em] text-magenta/80 mb-6 text-center">
                   Launch Readiness Score
                 </p>
                 <ScoreGauge
@@ -118,8 +123,11 @@ export default async function SharedReportPage({ params }: Props) {
 
           {/* Findings */}
           {findings && findings.length > 0 && (
-            <div className="mt-12">
-              <h2 className="text-xl font-bold mb-6">Findings</h2>
+            <div className="mt-16">
+              <div className="flex items-center gap-4 mb-8">
+                <h2 className="font-mono text-lg font-bold uppercase tracking-[0.2em] text-foreground">Findings</h2>
+                <div className="h-px flex-1 bg-indigo-900/30" />
+              </div>
               <FindingsList findings={findings as import("@/types/audit").Finding[]} />
             </div>
           )}

@@ -1,5 +1,6 @@
 import type { AuditMetadata, AuditScores, AuditStatus } from "./audit";
 import type { AnalysisCategory, PlanType, Severity } from "@/lib/constants";
+import type { TrustStatus, SkillCompatibility } from "./skills";
 
 export interface Database {
   public: {
@@ -85,6 +86,63 @@ export interface Database {
           deduction: number;
         };
         Update: Partial<Database["public"]["Tables"]["findings"]["Insert"]>;
+      };
+      skills: {
+        Row: {
+          id: string;
+          slug: string;
+          title: string;
+          provider: string;
+          source: string;
+          source_repo_url: string | null;
+          source_skill_url: string | null;
+          description: string | null;
+          official: boolean;
+          is_active: boolean;
+          trust_status: TrustStatus;
+          trust_severity: string | null;
+          trust_last_scanned_at: string | null;
+          cached_skill_markdown: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+          title: string;
+          provider: string;
+          source?: string;
+          source_repo_url?: string | null;
+          source_skill_url?: string | null;
+          description?: string | null;
+          official?: boolean;
+          is_active?: boolean;
+          trust_status?: TrustStatus;
+          trust_severity?: string | null;
+          trust_last_scanned_at?: string | null;
+          cached_skill_markdown?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["skills"]["Insert"]>;
+      };
+      skill_category_mappings: {
+        Row: {
+          id: string;
+          skill_id: string;
+          category: AnalysisCategory;
+          compatibility: SkillCompatibility;
+          priority: number;
+          why_this_fits: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          skill_id: string;
+          category: AnalysisCategory;
+          compatibility?: SkillCompatibility;
+          priority?: number;
+          why_this_fits?: string | null;
+        };
+        Update: Partial<Database["public"]["Tables"]["skill_category_mappings"]["Insert"]>;
       };
     };
   };

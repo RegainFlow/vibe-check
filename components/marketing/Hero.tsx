@@ -106,139 +106,151 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative pt-32 pb-24 px-4 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/20 rounded-full blur-[150px] pointer-events-none" />
+    <section className="relative pt-40 pb-32 px-4 overflow-hidden min-h-screen flex items-center">
+      {/* Background elements */}
+      <div className="absolute inset-0 rpg-grid opacity-20 pointer-events-none" />
+      <div className="absolute inset-0 dungeon-gradient pointer-events-none" />
+      <div className="scanline" />
 
-      {/* Grid pattern */}
-      <div className="absolute inset-0 grid-pattern opacity-30 pointer-events-none" />
+      {/* Atmospheric Glows */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-900/20 rounded-full blur-[120px] pointer-events-none animate-pulse" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-magenta/10 rounded-full blur-[100px] pointer-events-none animate-glow-pulse" />
 
-      {/* Floating dots */}
-      <div className="absolute top-20 left-[15%] w-2 h-2 rounded-full bg-primary/40 animate-float" />
-      <div
-        className="absolute top-40 right-[20%] w-1.5 h-1.5 rounded-full bg-accent/40 animate-float"
-        style={{ animationDelay: "1s" }}
-      />
-      <div
-        className="absolute bottom-32 left-[25%] w-1 h-1 rounded-full bg-gradient-end/40 animate-float"
-        style={{ animationDelay: "2s" }}
-      />
-
-      <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+      <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
         {/* Left: Copy + CTA */}
         <motion.div
-          className="flex flex-col gap-8"
+          className="flex flex-col gap-10"
           variants={staggerContainer}
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={fadeUp} className="flex flex-col gap-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-[1.1]">
-              Ship your AI-built app{" "}
-              <span className="gradient-text">with confidence.</span>
+          <motion.div variants={fadeUp} className="flex flex-col gap-6">
+            <h1 className="text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] uppercase glow-text-magenta">
+              Ship your Vibecoded app <br />
+              <span className="text-cyan glow-text-cyan">with confidence.</span>
             </h1>
           </motion.div>
+
           <motion.div variants={fadeUp}>
-            <p className="text-lg text-muted-foreground leading-relaxed max-w-lg">
-              Get a plain-English audit of your AI-built codebase in 60 seconds.
-              Scored across 7 categories with copy-paste fix prompts.
+            <p className="font-mono text-xs md:text-sm text-muted-foreground leading-relaxed max-w-lg uppercase tracking-wider">
+              Get a plain-English audit of your Vibecoded codebase in 60
+              seconds. Scored across 7 categories with copy-paste fix prompts.
             </p>
           </motion.div>
 
           {/* URL input + CTA */}
-          <motion.div variants={fadeUp}>
+          <motion.div variants={fadeUp} className="relative group">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row gap-3 max-w-lg"
+              className="relative flex flex-col sm:flex-row gap-3"
             >
               <div className="relative flex-1">
-                <Github className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                <Github className="absolute left-4 top-1/2 -translate-y-1/2 size-5 text-indigo-400" />
                 <input
                   ref={inputRef}
                   type="url"
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder="https://github.com/user/repo"
-                  className="w-full h-11 pl-10 pr-4 rounded-lg bg-card/50 border border-white/10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary/50 focus:border-primary/50 focus:shadow-[0_0_20px_rgba(124,58,237,0.15)] transition-all"
+                  className="rpg-input !pl-12 !h-14"
                 />
               </div>
-              <Button
+              <button
                 type="submit"
-                className="h-11 px-6 text-sm font-semibold gradient-purple hover:opacity-90 transition-opacity gap-2 border-0"
+                className="rpg-button rpg-button-primary h-14 px-8 text-sm font-bold flex items-center justify-center gap-3 shrink-0"
               >
                 Run Free Audit
                 <ArrowRight className="size-4" />
-              </Button>
+              </button>
             </form>
           </motion.div>
 
-          <motion.div variants={fadeUp}>
-            <p className="text-xs text-muted-foreground">
-              No credit card required. Public repos only for free tier.
-            </p>
+          <motion.div variants={fadeUp} className="flex items-center gap-6">
+            <div className="flex flex-col">
+              <span className="stat-value text-xl">60s</span>
+              <span className="stat-label">TIME TO AUDIT</span>
+            </div>
+            <div className="w-px h-8 bg-indigo-900/50" />
+            <div className="flex flex-col">
+              <span className="stat-value text-xl">100%</span>
+              <span className="stat-label">ANONYMOUS</span>
+            </div>
+            <div className="w-px h-8 bg-indigo-900/50" />
+            <div className="flex flex-col">
+              <span className="stat-value text-xl">0G</span>
+              <span className="stat-label">FREE START</span>
+            </div>
           </motion.div>
         </motion.div>
 
         {/* Right: Terminal mockup + Score */}
         <motion.div
-          className="flex flex-col gap-6 justify-center lg:justify-end"
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
+          className="flex flex-col gap-8 justify-center lg:justify-end relative"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           {/* Terminal mockup */}
-          <div className="terminal-card relative">
-            <div className="absolute inset-0 bg-primary/5 rounded-xl blur-[60px] scale-110 pointer-events-none" />
-            <div className="relative">
-              {/* Terminal header */}
-              <div className="flex items-center gap-1.5 px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-                <div className="w-3 h-3 rounded-full bg-red-500/70" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
-                <div className="w-3 h-3 rounded-full bg-green-500/70" />
-                <span className="ml-3 text-xs text-muted-foreground font-mono">
-                  vibecheck-audit.ts
-                </span>
+          <div className="terminal-frame shadow-2xl">
+            <div className="terminal-header">
+              <div className="flex items-center gap-2">
+                <div className="size-2.5 rounded-full bg-red-500/70" />
+                <div className="size-2.5 rounded-full bg-yellow-500/70" />
+                <div className="size-2.5 rounded-full bg-green-500/70" />
+                <span className="ml-2">vibecheck-audit.ts</span>
               </div>
-              {/* Terminal body */}
-              <div className="p-4 font-mono text-sm leading-relaxed" style={{ fontVariantLigatures: "none" }}>
-                {terminalLines.slice(0, visibleLines).map((line, i) => (
-                  <div key={i} style={{ paddingLeft: `${line.indent * 20}px` }}>
-                    {line.parts.map((part, j) => (
-                      <span key={j} className={part.color}>
-                        {part.text}
-                      </span>
-                    ))}
-                    {line.parts.length === 1 && line.parts[0].text === "" && (
-                      <br />
-                    )}
-                  </div>
-                ))}
+              <div className="flex gap-1.5">
+                <div className="size-2 bg-indigo-900" />
+                <div className="size-2 bg-indigo-900" />
               </div>
+            </div>
+
+            {/* Terminal body */}
+            <div
+              className="terminal-body min-h-[320px]"
+              style={{ fontVariantLigatures: "none" }}
+            >
+              {terminalLines.slice(0, visibleLines).map((line, i) => (
+                <div
+                  key={i}
+                  style={{ paddingLeft: `${line.indent * 20}px` }}
+                  className="mb-1"
+                >
+                  {line.parts.map((part, j) => (
+                    <span key={j} className={part.color}>
+                      {part.text}
+                    </span>
+                  ))}
+                  {line.parts.length === 1 && line.parts[0].text === "" && (
+                    <br />
+                  )}
+                </div>
+              ))}
+              {visibleLines < terminalLines.length && (
+                <span className="inline-block w-2 h-4 bg-magenta animate-pulse ml-1 align-middle" />
+              )}
             </div>
           </div>
 
-          {/* Score card (smaller, below terminal) */}
-          <div className="flex justify-center">
-            <div className="glow-card p-6 flex items-center gap-6">
-              <ScoreGauge score={72} label="Overall" size="sm" />
-              <div className="flex gap-3">
-                {[
-                  { label: "Security", score: 45 },
-                  { label: "Structure", score: 82 },
-                  { label: "Types", score: 91 },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className="flex flex-col items-center gap-1 rounded-lg border border-white/5 bg-background/50 p-2"
-                  >
-                    <ScoreGauge score={item.score} size="sm" />
-                    <span className="text-[10px] text-muted-foreground">
-                      {item.label}
-                    </span>
-                  </div>
-                ))}
+          {/* Score card (Quest item style) */}
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { label: "Security", score: 45, color: "text-red-400" },
+              { label: "Maintainability", score: 82, color: "text-green-400" },
+              { label: "Scalability", score: 91, color: "text-green-400" },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="rpg-panel p-4 flex flex-col items-center gap-1 bg-indigo-950/40"
+              >
+                <span className={`text-xl font-bold font-mono ${item.color}`}>
+                  {item.score}%
+                </span>
+                <span className="text-[8px] font-mono uppercase tracking-widest text-muted-foreground text-center">
+                  {item.label}
+                </span>
               </div>
-            </div>
+            ))}
           </div>
         </motion.div>
       </div>

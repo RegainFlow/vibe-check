@@ -18,25 +18,27 @@ export function DashboardTopBar({ userName }: DashboardTopBarProps) {
   const currentPage = pageNames[pathname] ?? "Dashboard";
 
   return (
-    <div className="h-14 border-b border-white/5 bg-background/60 backdrop-blur-xl flex items-center justify-between px-6">
+    <div className="h-14 border-b border-indigo-900/50 bg-indigo-950/20 backdrop-blur-xl flex items-center justify-between px-6 relative z-10">
+      <div className="absolute inset-0 rpg-grid opacity-10 pointer-events-none" />
+      
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-muted-foreground">Dashboard</span>
+      <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest relative z-10">
+        <span className="text-magenta/60">Dashboard</span>
         {currentPage !== "Overview" && (
           <>
-            <span className="text-muted-foreground/40">/</span>
-            <span className="text-foreground font-medium">{currentPage}</span>
+            <span className="text-indigo-900 mx-1">/</span>
+            <span className="text-foreground font-bold">{currentPage}</span>
           </>
         )}
       </div>
 
       {/* Right side */}
-      <div className="flex items-center gap-4">
-        <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-full gradient-purple flex items-center justify-center text-white text-xs font-bold">
-            {userName[0]?.toUpperCase() ?? "U"}
+      <div className="flex items-center gap-4 relative z-10">
+        <div className="flex items-center gap-3">
+          <div className="size-6 bg-indigo-950 border border-indigo-800 flex items-center justify-center text-magenta font-mono text-xs font-bold rotate-45 rounded-sm shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+            <span className="-rotate-45">{userName[0]?.toUpperCase() ?? "U"}</span>
           </div>
-          <span className="text-sm font-medium hidden sm:inline">{userName}</span>
+          <span className="font-mono text-[11px] uppercase tracking-tight hidden sm:inline text-foreground">{userName}</span>
         </div>
       </div>
     </div>
