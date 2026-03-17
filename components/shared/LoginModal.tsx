@@ -76,7 +76,7 @@ export default function LoginModal() {
               
               <button
                 onClick={dismiss}
-                className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-magenta transition-colors"
+                className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground hover:text-magenta transition-colors cursor-pointer"
               >
                 [ Abort Ritual ]
               </button>

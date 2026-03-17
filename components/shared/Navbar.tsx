@@ -60,7 +60,7 @@ export default function Navbar() {
           {/* Mobile hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="sm:hidden size-9 flex items-center justify-center border border-indigo-900/50 bg-indigo-950/50 hover:border-magenta/50 transition-colors"
+            className="sm:hidden size-9 flex items-center justify-center border border-indigo-900/50 bg-indigo-950/50 hover:border-magenta/50 transition-colors rounded-lg cursor-pointer"
             aria-label="Toggle menu"
           >
             {mobileOpen ? (

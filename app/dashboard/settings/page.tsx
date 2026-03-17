@@ -88,7 +88,7 @@ export default function SettingsPage() {
         {/* Profile */}
         <div className="rpg-panel p-8 bg-indigo-950/20">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 border border-magenta/40 bg-indigo-950 flex items-center justify-center rotate-45">
+            <div className="w-12 h-12 rounded-md border border-magenta/40 bg-indigo-950 flex items-center justify-center rotate-45">
               <User className="w-6 h-6 text-magenta -rotate-45" />
             </div>
             <div>
@@ -140,7 +140,7 @@ export default function SettingsPage() {
         {/* Plan & Billing */}
         <div className="rpg-panel p-8 bg-indigo-950/20">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 border border-amber-500/40 bg-indigo-950 flex items-center justify-center rotate-45">
+            <div className="w-12 h-12 rounded-md border border-amber-500/40 bg-indigo-950 flex items-center justify-center rotate-45">
               <CreditCard className="w-6 h-6 text-amber-400 -rotate-45" />
             </div>
             <div>
@@ -151,7 +151,7 @@ export default function SettingsPage() {
             </div>
           </div>
 
-          <div className="border border-indigo-900/50 bg-indigo-950/40 p-5 mb-6">
+          <div className="rounded-lg border border-indigo-900/50 bg-indigo-950/40 p-5 mb-6">
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-mono text-sm font-bold uppercase tracking-tight text-foreground mb-1">
@@ -164,7 +164,7 @@ export default function SettingsPage() {
                 </p>
               </div>
               <span
-                className={`font-mono text-[9px] font-bold uppercase tracking-widest px-3 py-1 border ${
+                className={`font-mono text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-md border ${
                   plan === "free"
                     ? "border-indigo-800/50 text-muted-foreground bg-indigo-950/50"
                     : "border-magenta/40 text-magenta bg-magenta/5"
@@ -185,7 +185,7 @@ export default function SettingsPage() {
         {/* Danger Zone */}
         <div className="rpg-panel p-8 border-red-500/30 bg-red-950/10">
           <div className="flex items-center gap-4 mb-8">
-            <div className="w-12 h-12 border border-red-500/40 bg-red-950 flex items-center justify-center rotate-45">
+            <div className="w-12 h-12 rounded-md border border-red-500/40 bg-red-950 flex items-center justify-center rotate-45">
               <Trash2 className="w-6 h-6 text-red-500 -rotate-45" />
             </div>
             <div>
@@ -210,7 +210,7 @@ export default function SettingsPage() {
                 type="text"
                 value={confirmDelete}
                 onChange={(e) => setConfirmDelete(e.target.value)}
-                className="w-full h-12 px-4 bg-indigo-950/80 border-2 border-red-900/50 text-sm font-mono text-foreground focus:outline-hidden focus:border-red-500/50 transition-all uppercase"
+                className="w-full h-12 px-4 rounded-lg bg-indigo-950/80 border-2 border-red-900/50 text-sm font-mono text-foreground focus:outline-hidden focus:border-red-500/50 transition-all uppercase"
                 placeholder="DELETE MY ACCOUNT"
               />
             </div>
@@ -229,14 +229,19 @@ export default function SettingsPage() {
                   setDeleting(false);
                 }
               }}
-              className="rpg-button w-full border-red-900/50 hover:border-red-500 text-red-400 hover:text-red-400 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-red-950/80 border-2 border-red-500/40 text-red-400 hover:bg-red-900/60 hover:border-red-500 hover:text-red-300 font-mono uppercase tracking-tighter transition-all duration-200 active:translate-y-0.5 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {deleting ? (
-                <div className="flex items-center justify-center gap-2">
+                <>
                   <Loader2 className="w-4 h-4 animate-spin" />
                   DELETING...
-                </div>
-              ) : "DELETE ACCOUNT"}
+                </>
+              ) : (
+                <>
+                  <Trash2 className="w-4 h-4" />
+                  DELETE ACCOUNT
+                </>
+              )}
             </button>
           </div>
         </div>

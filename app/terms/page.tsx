@@ -94,7 +94,7 @@ export default function TermsPage() {
           <h2 className="font-mono text-xl font-bold uppercase tracking-tight text-foreground mt-8 mb-4">9. Contact</h2>
           <p className="text-sm text-muted-foreground">
             Questions about these terms? Contact us at{" "}
-            <a href="mailto:support@vibecheck.dev" className="text-magenta hover:underline">support@vibecheck.dev</a>.
+            <a href="mailto:leonardo.j.ramirez@regainflow.com" className="text-magenta hover:underline">leonardo.j.ramirez@regainflow.com</a>.
           </p>
         </article>
       </main>

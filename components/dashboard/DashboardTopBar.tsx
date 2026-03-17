@@ -35,7 +35,7 @@ export function DashboardTopBar({ userName }: DashboardTopBarProps) {
       {/* Right side */}
       <div className="flex items-center gap-4 relative z-10">
         <div className="flex items-center gap-3">
-          <div className="size-6 bg-indigo-950 border border-indigo-800 flex items-center justify-center text-magenta font-mono text-xs font-bold rotate-45 shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+          <div className="size-6 bg-indigo-950 border border-indigo-800 flex items-center justify-center text-magenta font-mono text-xs font-bold rotate-45 rounded-sm shadow-[0_0_10px_rgba(0,0,0,0.3)]">
             <span className="-rotate-45">{userName[0]?.toUpperCase() ?? "U"}</span>
           </div>
           <span className="font-mono text-[11px] uppercase tracking-tight hidden sm:inline text-foreground">{userName}</span>

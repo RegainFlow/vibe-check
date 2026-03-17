@@ -125,16 +125,16 @@ export default function Hero() {
           animate="visible"
         >
           <motion.div variants={fadeUp} className="flex flex-col gap-6">
-            <h1 className="text-4xl md:text-4xl lg:text-5xl font-bold tracking-tight text-foreground leading-[1.1] uppercase glow-text-magenta">
-              Ship your AI-built app <br />
-              <span className="text-gold glow-text-gold">with confidence.</span>
+            <h1 className="text-3xl md:text-3xl lg:text-4xl font-bold tracking-tight text-foreground leading-[1.1] uppercase glow-text-magenta">
+              Ship your Vibecoded app <br />
+              <span className="text-cyan glow-text-cyan">with confidence.</span>
             </h1>
           </motion.div>
 
           <motion.div variants={fadeUp}>
             <p className="font-mono text-xs md:text-sm text-muted-foreground leading-relaxed max-w-lg uppercase tracking-wider">
-              Get a plain-English audit of your AI-built codebase in 60 seconds.
-              Scored across 7 categories with copy-paste fix prompts.
+              Get a plain-English audit of your Vibecoded codebase in 60
+              seconds. Scored across 7 categories with copy-paste fix prompts.
             </p>
           </motion.div>
 

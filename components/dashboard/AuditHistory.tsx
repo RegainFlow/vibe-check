@@ -87,7 +87,7 @@ export function AuditHistory({ audits }: AuditHistoryProps) {
                   )}
                 </div>
                 <span
-                  className={`inline-flex items-center gap-1.5 border px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest shrink-0 ${status.badge}`}
+                  className={`inline-flex items-center gap-1.5 border rounded-md px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-widest shrink-0 ${status.badge}`}
                 >
                   {status.icon}
                   {status.label}

@@ -54,7 +54,7 @@ export default function Features() {
           </div>
           <h2 className="text-3xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta leading-[1.1]">
             Everything you need to <br />
-            <span className="text-gold glow-text-gold tracking-tight">
+            <span className="text-cyan glow-text-cyan tracking-tight">
               ship Confidently
             </span>
           </h2>
@@ -81,7 +81,7 @@ export default function Features() {
               >
                 <div className="rpg-panel p-8 h-full flex flex-col gap-6 hover:border-magenta/40 transition-all bg-indigo-950/20">
                   <div className="flex items-center gap-6">
-                    <div className="shrink-0 size-14 flex items-center justify-center bg-indigo-950 border border-indigo-900 group-hover:border-magenta transition-all">
+                    <div className="shrink-0 size-14 flex items-center justify-center bg-indigo-950 border border-indigo-900 rounded-lg group-hover:border-magenta transition-all">
                       <Icon className="size-6 text-magenta" />
                     </div>
                     <div className="flex flex-col gap-1">

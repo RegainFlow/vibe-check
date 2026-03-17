@@ -33,7 +33,7 @@ export default function CTABanner() {
           
           <h2 className="text-3xl md:text-5xl font-mono font-bold tracking-tighter text-foreground uppercase glow-text-magenta leading-[1.1]">
             Ready to check <br />
-            <span className="text-gold glow-text-gold tracking-tight">your vibe?</span>
+            <span className="text-cyan glow-text-cyan tracking-tight">your vibe?</span>
           </h2>
           
           <p className="font-mono text-[10px] md:text-xs uppercase tracking-widest text-muted-foreground max-w-xl leading-relaxed">

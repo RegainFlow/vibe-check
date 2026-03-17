@@ -18,6 +18,7 @@ import Navbar from "@/components/shared/Navbar";
 import ScoreGauge from "@/components/audit/ScoreGauge";
 import ScoreOverview from "@/components/audit/ScoreOverview";
 import FindingsList from "@/components/audit/FindingsList";
+import { AIRepairSummary } from "@/components/audit/AIRepairSummary";
 import type { Audit, Finding } from "@/types/audit";
 import type { AuditStatus } from "@/types/audit";
 
@@ -43,6 +44,7 @@ export default function AuditResultPage() {
   const [findings, setFindings] = useState<Finding[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const fetchResults = useCallback(async (): Promise<"done" | "reconnect"> => {
     try {
@@ -69,6 +71,7 @@ export default function AuditResultPage() {
               const data = JSON.parse(line.slice(6));
               if (data.audit) {
                 setAudit(data.audit);
+                setLoading(false);
                 lastAuditStatus = data.audit.status;
               }
               if (data.findings) setFindings(data.findings);
@@ -137,8 +140,8 @@ export default function AuditResultPage() {
         <div className="scanline" />
 
         <div className="max-w-5xl mx-auto relative z-10">
-          {/* Progress view */}
-          {(isRunning || (!audit && !error)) && (
+          {/* Progress view — shown while audit is running OR before first SSE data */}
+          {(isRunning || (loading && !audit && !error)) && (
             <div className="max-w-lg mx-auto rpg-panel p-10 bg-indigo-950/20">
               <h1 className="text-2xl font-mono font-bold uppercase tracking-tight text-center mb-2 glow-text-magenta text-foreground">
                 Analyzing your code...
@@ -159,7 +162,7 @@ export default function AuditResultPage() {
                   return (
                     <div
                       key={step.key}
-                      className={`relative flex items-center gap-4 p-4 transition-all border ${
+                      className={`relative flex items-center gap-4 p-4 transition-all border rounded-lg ${
                         isActive
                           ? "border-magenta/50 bg-magenta/5 shadow-[0_0_15px_rgba(217,70,239,0.2)]"
                           : isComplete
@@ -168,7 +171,7 @@ export default function AuditResultPage() {
                       }`}
                     >
                       <div
-                        className={`w-10 h-10 border flex items-center justify-center rotate-45 ${
+                        className={`w-10 h-10 border flex items-center justify-center rotate-45 rounded-sm ${
                           isActive
                             ? "border-magenta bg-indigo-950 text-magenta"
                             : isComplete
@@ -207,7 +210,7 @@ export default function AuditResultPage() {
           {/* Error view */}
           {audit?.status === "failed" && (
             <div className="max-w-lg mx-auto text-center rpg-panel p-10 bg-red-950/10 border-red-500/30">
-              <div className="w-16 h-16 border-2 border-red-500/50 bg-red-950 flex items-center justify-center rotate-45 mx-auto mb-8">
+              <div className="w-16 h-16 border-2 border-red-500/50 bg-red-950 flex items-center justify-center rotate-45 rounded-sm mx-auto mb-8">
                 <XCircle className="w-8 h-8 text-red-500 -rotate-45" />
               </div>
               <h1 className="text-2xl font-mono font-bold uppercase tracking-tight mb-2 text-red-500">Audit Failed</h1>
@@ -235,11 +238,11 @@ export default function AuditResultPage() {
                   </p>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={handleShare} className="rpg-button px-4 py-2 text-[10px] flex items-center gap-2">
+                  <button onClick={handleShare} className="rpg-button rpg-button-secondary px-4 py-2 text-[10px] flex items-center gap-2">
                     <Share2 className="w-3.5 h-3.5" />
                     {copied ? "COPIED!" : "SHARE REPORT"}
                   </button>
-                  <button onClick={handleRescan} className="rpg-button px-4 py-2 text-[10px] flex items-center gap-2 border-indigo-500/50 hover:border-indigo-400">
+                  <button onClick={handleRescan} className="rpg-button rpg-button-secondary px-4 py-2 text-[10px] flex items-center gap-2 border-indigo-500/50 hover:border-indigo-400">
                     <RotateCcw className="w-3.5 h-3.5" />
                     RE-SCAN
                   </button>
@@ -267,10 +270,17 @@ export default function AuditResultPage() {
               {/* Category Scores */}
               <ScoreOverview scores={audit.scores} />
 
+              {/* AI Repair Summary */}
+              {findings.length > 0 && (
+                <div className="mt-16">
+                  <AIRepairSummary findings={findings} />
+                </div>
+              )}
+
               {/* Findings */}
               <div className="mt-16">
                 <div className="flex items-center gap-4 mb-8">
-                  <h2 className="font-mono text-lg font-bold uppercase tracking-[0.2em] text-foreground">Findings</h2>
+                  <h2 className="font-mono text-lg font-bold uppercase tracking-[0.2em] text-foreground">Findings & Repairs</h2>
                   <div className="h-px flex-1 bg-indigo-900/30" />
                 </div>
                 <FindingsList findings={findings} />

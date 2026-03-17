@@ -79,7 +79,7 @@ export default function HowItWorks() {
                 </div>
 
                 <div className="relative">
-                  <div className="size-16 flex items-center justify-center bg-indigo-950 border-2 border-indigo-900 group-hover:border-magenta group-hover:shadow-[0_0_15px_rgba(217,70,239,0.3)] transition-all">
+                  <div className="size-16 flex items-center justify-center bg-indigo-950 border-2 border-indigo-900 rounded-lg group-hover:border-magenta group-hover:shadow-[0_0_15px_rgba(217,70,239,0.3)] transition-all">
                     <step.icon className="size-7 text-magenta" />
                   </div>
                 </div>

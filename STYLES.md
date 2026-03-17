@@ -24,19 +24,29 @@ All colors defined as CSS custom properties in `app/globals.css` and extended in
 | `--warning`          | `#F59E0B`      | Warning indicators         |
 | `--border`           | `#1E2536`      | Borders                    |
 | `--ring`             | `#D946EF`      | Focus ring                 |
-| `--gold`             | `#FDE047`      | Gold accent (dark), `#D97706` (light) |
+| `--gold`             | `#22D3EE`      | Cyan accent (dark), `#0891B2` (light) |
 | `--navy`             | `#0A0D1E`      | Navy background alias      |
 | `--scanline-color`   | `rgba(217,70,239,0.05)` | Scanline overlay tint |
 | `--grid-color`       | `rgba(49,46,129,0.05)`  | RPG grid line color   |
 | `--gradient-bottom`  | `rgba(10,13,30,0.8)`    | Dungeon gradient bottom |
 | `--btn-shadow`       | `rgba(0,0,0,0.8)`       | Button drop shadow    |
 
+**Light-mode `--indigo-*` overrides** (`:root` only — `.dark` retains standard values):
+
+| Variable        | Light value | Dark value |
+| --------------- | ----------- | ---------- |
+| `--indigo-400`  | `#C7D2FE`   | `#818CF8`  |
+| `--indigo-500`  | `#A5B4FC`   | `#6366F1`  |
+| `--indigo-800`  | `#E0E7FF`   | `#3730A3`  |
+| `--indigo-900`  | `#EEF2FF`   | `#312E81`  |
+| `--indigo-950`  | `#F5F3FF`   | `#1E1B4B`  |
+
 **RPG Accents (Tailwind configuration):**
 - `navy`: `var(--navy)`
 - `indigo`: `#1E1B4B`
 - `magenta`: `var(--primary)`
 - `violet`: `#7C3AED`
-- `gold`: `var(--gold)`
+- `cyan`: `var(--gold)`
 - `electric-blue`: `#3B82F6`
 
 ## Fonts
@@ -58,10 +68,10 @@ Defined in `app/globals.css` under `@layer utilities` and at root scope. The UI 
 | `.rpg-button-primary` | Primary CTA variation (magenta background)          |
 | `.rpg-input`        | Styled input field matching the RPG aesthetic         |
 | `.quest-card`       | Variation of `.rpg-panel` with hover lift             |
-| `.stat-value`       | Large, glowing gold mono text for scores/stats        |
+| `.stat-value`       | Large, glowing cyan mono text for scores/stats        |
 | `.stat-label`       | Small, uppercase mono text for stat descriptions      |
 | `.glow-text-magenta`| Text shadow effect for magenta glow                   |
-| `.glow-text-gold`   | Text shadow effect for gold glow                      |
+| `.glow-text-cyan`   | Text shadow effect for cyan glow                      |
 | `.glow-card`        | Card with inset shadow, glowing border, and `::before` overlay |
 | `.atmospheric-overlay` | Fixed linear gradient overlay for depth             |
 | `.hud-line`         | Thin decorative glowing line                          |
@@ -121,3 +131,18 @@ Rounded corners using a base `--radius` of `0.5rem`, computed into size variants
 | `--radius-md`| `calc(var(--radius) - 2px)`    | `6px`     |
 | `--radius-lg`| `var(--radius)`                | `8px`     |
 | `--radius-xl`| `calc(var(--radius) + 4px)`    | `12px`    |
+
+## Dashboard Sidebar
+
+All sidebar interactive elements use `rounded-lg` for consistency with the global RPG rounded style:
+
+| Element              | Rounding      | Notes                                          |
+| -------------------- | ------------- | ---------------------------------------------- |
+| Nav links            | `rounded-lg`  | Both main and account nav items                |
+| New Audit CTA        | `rpg-button`  | Uses `rpg-button rpg-button-primary` classes   |
+| Collapse toggle      | `rounded-lg`  | Visible container with border + bg, below logo |
+| Sign out button      | `rounded-lg`  | Destructive red styling (`text-red-400`)       |
+| Mobile hamburger     | `rounded-lg`  | Fixed position toggle for mobile nav           |
+| Active indicator bar | `rounded-full`| Left-edge bar with `top-1 bottom-1` inset      |
+| Plan badge container | `rpg-panel`   | Already has `rounded-xl`, no change needed     |
+| Diamond elements     | `rounded-sm`  | All rotated-45deg diamond icons use `rounded-sm` for subtle corner rounding |

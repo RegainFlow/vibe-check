@@ -39,7 +39,7 @@ const config: Config = {
         ring: "var(--ring)",
         success: "var(--success)",
         warning: "var(--warning)",
-        gold: "var(--gold)",
+        cyan: "var(--gold)",
         navy: "var(--navy)",
         indigo: {
           400: "var(--indigo-400)",

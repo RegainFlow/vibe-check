@@ -46,7 +46,7 @@ export default function PricingPage() {
                     {PLANS.free.name}
                   </h3>
                   <div className="flex items-baseline gap-2">
-                    <span className="stat-value text-6xl text-gold">
+                    <span className="stat-value text-6xl text-cyan">
                       ${PLANS.free.price}
                     </span>
                     <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">

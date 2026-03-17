@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FindingCard } from "./FindingCard";
 import {
@@ -10,6 +10,8 @@ import {
 } from "@/lib/constants";
 import { staggerContainer, fadeUp } from "@/lib/motion";
 import type { Finding } from "@/types/audit";
+import type { RecommendedSkill } from "@/types/skills";
+import { deriveFindingObservability } from "@/lib/analysis/observability";
 
 interface FindingsListProps {
   findings: Finding[];
@@ -21,6 +23,27 @@ export default function FindingsList({ findings }: FindingsListProps) {
   const [activeCategory, setActiveCategory] = useState<
     "all" | AnalysisCategory
   >("all");
+  const [skillsByCategory, setSkillsByCategory] = useState<
+    Partial<Record<AnalysisCategory, RecommendedSkill | null>>
+  >({});
+
+  useEffect(() => {
+    const categories = [...new Set(findings.map((f) => f.category))];
+
+    categories.forEach(async (category) => {
+      try {
+        const res = await fetch(`/api/skills/${category}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        setSkillsByCategory((prev) => ({
+          ...prev,
+          [category]: data.primary ?? null,
+        }));
+      } catch {
+        // Skill recommendations are non-critical — fail silently
+      }
+    });
+  }, [findings]);
 
   const filteredFindings =
     activeCategory === "all"
@@ -43,7 +66,7 @@ export default function FindingsList({ findings }: FindingsListProps) {
       <div className="flex gap-3 overflow-x-auto pb-4 mb-6 scrollbar-none">
         <button
           onClick={() => setActiveCategory("all")}
-          className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border ${
+          className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border rounded-lg cursor-pointer ${
             activeCategory === "all"
               ? "border-magenta/50 bg-magenta/10 text-magenta shadow-[0_0_10px_rgba(217,70,239,0.2)]"
               : "border-indigo-900/50 bg-indigo-950/30 text-muted-foreground hover:border-magenta/30 hover:text-foreground"
@@ -58,7 +81,7 @@ export default function FindingsList({ findings }: FindingsListProps) {
           <button
             key={cat.key}
             onClick={() => setActiveCategory(cat.key)}
-            className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border ${
+            className={`relative px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-widest whitespace-nowrap transition-all border rounded-lg cursor-pointer ${
               activeCategory === cat.key
                 ? "border-magenta/50 bg-magenta/10 text-magenta shadow-[0_0_10px_rgba(217,70,239,0.2)]"
                 : "border-indigo-900/50 bg-indigo-950/30 text-muted-foreground hover:border-magenta/30 hover:text-foreground"
@@ -96,7 +119,7 @@ export default function FindingsList({ findings }: FindingsListProps) {
           ) : (
             sortedFindings.map((finding) => (
               <motion.div key={finding.id} variants={fadeUp}>
-                <FindingCard finding={finding} />
+                <FindingCard finding={finding} recommendedSkill={skillsByCategory[finding.category]} observability={deriveFindingObservability(finding)} />
               </motion.div>
             ))
           )}

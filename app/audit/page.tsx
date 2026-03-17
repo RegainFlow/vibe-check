@@ -94,7 +94,7 @@ export default function AuditPage() {
         <div className="max-w-2xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-mono font-bold tracking-tighter mb-4 uppercase glow-text-magenta">
-              Audit Your <span className="text-gold glow-text-gold">Codebase</span>
+              Audit Your <span className="text-cyan glow-text-cyan">Codebase</span>
             </h1>
             <p className="font-mono text-xs md:text-sm uppercase tracking-widest text-muted-foreground">
               Paste a GitHub URL or upload a ZIP file to get started
@@ -102,10 +102,10 @@ export default function AuditPage() {
           </div>
 
           {/* Tabs */}
-          <div className="flex gap-2 p-1 mb-8 max-w-sm mx-auto relative border border-indigo-900/50 bg-indigo-950/20">
+          <div className="flex gap-2 p-1 mb-8 max-w-sm mx-auto relative border border-indigo-900/50 bg-indigo-950/20 rounded-lg">
             <button
               onClick={() => setTab("github")}
-              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all ${
+              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all cursor-pointer ${
                 tab === "github"
                   ? "text-magenta border border-magenta/40 bg-magenta/5"
                   : "text-muted-foreground hover:text-foreground"
@@ -121,7 +121,7 @@ export default function AuditPage() {
             </button>
             <button
               onClick={() => setTab("zip")}
-              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all ${
+              className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-3 text-xs font-mono uppercase tracking-widest transition-all cursor-pointer ${
                 tab === "zip"
                   ? "text-magenta border border-magenta/40 bg-magenta/5"
                   : "text-muted-foreground hover:text-foreground"
@@ -233,7 +233,7 @@ export default function AuditPage() {
                   }}
                   className="rpg-panel border-2 border-dashed p-10 sm:p-16 text-center transition-all flex flex-col items-center"
                 >
-                  <div className="size-16 border border-indigo-900 flex items-center justify-center bg-indigo-950 mb-6 rotate-45">
+                  <div className="size-16 border border-indigo-900 flex items-center justify-center bg-indigo-950 mb-6 rotate-45 rounded-sm">
                     <Upload className="w-6 h-6 text-magenta -rotate-45" />
                   </div>
                   <p className="font-mono text-sm font-bold uppercase tracking-widest mb-2 text-foreground">
@@ -255,7 +255,7 @@ export default function AuditPage() {
                   />
                   <button
                     type="button"
-                    className="rpg-button px-8 py-3 text-xs flex items-center justify-center"
+                    className="rpg-button rpg-button-secondary px-8 py-3 text-xs flex items-center justify-center"
                     onClick={() => document.getElementById("zip-upload")?.click()}
                     disabled={isLoading}
                   >

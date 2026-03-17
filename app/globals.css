@@ -35,16 +35,16 @@
   --glow-card-hover-border: rgba(217, 70, 239, 0.4);
   
   --rpg-border-color: #E2E8F0;
-  --rpg-gold: #D97706;
+  --rpg-gold: #0891B2;
   --rpg-magenta: #D946EF;
 
   --indigo-400: #818CF8;
   --indigo-500: #6366F1;
-  --indigo-800: #3730A3;
-  --indigo-900: #312E81;
-  --indigo-950: #1E1B4B;
-  
-  --gold: #D97706;
+  --indigo-800: #C7D2FE;
+  --indigo-900: #A5B4FC;
+  --indigo-950: #EEF2FF;
+
+  --gold: #0891B2;
   --navy: #FAFBFC;
   --scanline-color: rgba(217, 70, 239, 0.05);
   --grid-color: rgba(49, 46, 129, 0.05);
@@ -81,7 +81,7 @@
   --indigo-900: #312E81;
   --indigo-950: #1E1B4B;
 
-  --gold: #FDE047;
+  --gold: #22D3EE;
   --navy: #0A0D1E;
   --scanline-color: rgba(217, 70, 239, 0.05);
   --grid-color: rgba(49, 46, 129, 0.05);
@@ -156,6 +156,11 @@ body {
     box-shadow: 0 4px 0 rgba(74,4,78,0.8);
   }
 
+  .rpg-button-secondary {
+    @apply bg-indigo-900/60 border-indigo-700 text-indigo-200 hover:bg-indigo-800/60 hover:border-magenta/60 hover:text-magenta;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.6);
+  }
+
   .rpg-input {
     @apply w-full h-12 px-4 bg-indigo-950/80 border-2 border-indigo-900 text-sm font-mono text-foreground placeholder:text-indigo-800 focus:outline-hidden focus:border-magenta/50 transition-all uppercase rounded-lg;
   }
@@ -178,8 +183,8 @@ body {
   }
 
   .stat-value {
-    @apply font-mono text-3xl font-bold text-gold;
-    text-shadow: 0 0 15px rgba(253, 224, 71, 0.15);
+    @apply font-mono text-3xl font-bold text-cyan;
+    text-shadow: 0 0 15px rgba(34, 211, 238, 0.15);
   }
 
   .stat-label {
@@ -190,8 +195,8 @@ body {
     text-shadow: 0 0 15px rgba(217, 70, 239, 0.3), 0 0 25px rgba(217, 70, 239, 0.15);
   }
 
-  .glow-text-gold {
-    text-shadow: 0 0 15px rgba(253, 224, 71, 0.3), 0 0 25px rgba(253, 224, 71, 0.15);
+  .glow-text-cyan {
+    text-shadow: 0 0 15px rgba(34, 211, 238, 0.3), 0 0 25px rgba(34, 211, 238, 0.15);
   }
 
   .atmospheric-overlay {
@@ -272,4 +277,50 @@ body {
 .glow-card::before {
   content: "";
   @apply absolute -inset-[1px] border border-magenta/20 rounded-xl pointer-events-none;
+}
+
+/* Light mode softened shadows */
+:root:not(.dark) .rpg-panel,
+:root:not(.dark) .quest-card,
+:root:not(.dark) .glow-card,
+:root:not(.dark) .terminal-frame {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+:root:not(.dark) .rpg-button {
+  box-shadow: 0 2px 0 rgba(0,0,0,0.12);
+}
+
+:root:not(.dark) .rpg-button-primary {
+  box-shadow: 0 2px 0 rgba(168, 34, 180, 0.3);
+}
+
+:root:not(.dark) .dungeon-gradient {
+  background: linear-gradient(180deg, rgba(250, 251, 252, 0) 0%, rgba(250, 251, 252, 0.9) 100%);
+}
+
+:root:not(.dark) body {
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(165, 180, 252, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at 0% 50%, rgba(217, 70, 239, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.04) 0%, transparent 40%);
+}
+
+:root:not(.dark) .rpg-panel::before,
+:root:not(.dark) .quest-card::before,
+:root:not(.dark) .glow-card::before,
+:root:not(.dark) .terminal-frame::before {
+  border-color: rgba(217, 70, 239, 0.06);
+}
+
+:root:not(.dark) .stat-value {
+  text-shadow: 0 0 10px rgba(8, 145, 178, 0.15);
+}
+
+:root:not(.dark) .glow-text-magenta {
+  text-shadow: 0 0 10px rgba(217, 70, 239, 0.2);
+}
+
+:root:not(.dark) .glow-text-cyan {
+  text-shadow: 0 0 10px rgba(8, 145, 178, 0.2);
 }

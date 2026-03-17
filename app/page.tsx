@@ -8,8 +8,15 @@ import Features from "@/components/marketing/Features";
 import SampleReport from "@/components/marketing/SampleReport";
 import CTABanner from "@/components/marketing/CTABanner";
 import LoginModal from "@/components/shared/LoginModal";
+import { getSampleReport } from "@/lib/sample-report";
+import { getPlatformStats } from "@/lib/platform-stats";
 
-export default function Home() {
+export default async function Home() {
+  const [sampleData, platformStats] = await Promise.all([
+    getSampleReport(),
+    getPlatformStats(),
+  ]);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -18,10 +25,10 @@ export default function Home() {
           <LoginModal />
         </Suspense>
         <Hero />
-        <SocialProof />
+        <SocialProof stats={platformStats} />
         <HowItWorks />
         <Features />
-        <SampleReport />
+        <SampleReport data={sampleData} />
         <CTABanner />
       </main>
       <Footer />
